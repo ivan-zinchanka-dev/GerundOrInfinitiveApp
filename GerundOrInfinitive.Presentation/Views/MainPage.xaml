@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GerundOrInfinitive.Presentation.MainPage">
+             x:Class="GerundOrInfinitive.Presentation.Views.MainPage">
 
     <ScrollView>
         <VerticalStackLayout
@@ -16,7 +16,8 @@
             <Button
                 WidthRequest="200"
                 HorizontalOptions="Center"
-                Text="Settings"/>
+                Text="Settings"
+                Clicked="OnSettingsClick"/>
         </VerticalStackLayout>
     </ScrollView>
 

@@ -1,4 +1,6 @@
-﻿namespace GerundOrInfinitive.Presentation;
+﻿using GerundOrInfinitive.Presentation.Views;
+
+namespace GerundOrInfinitive.Presentation;
 
 public partial class App : Application
 {
@@ -6,6 +8,6 @@ public partial class App : Application
     {
         InitializeComponent();
 
-        MainPage = new AppShell();
+        MainPage = new NavigationPage(new MainPage());
     }
 }
