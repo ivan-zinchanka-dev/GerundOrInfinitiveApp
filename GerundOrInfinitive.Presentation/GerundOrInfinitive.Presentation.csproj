@@ -71,4 +71,8 @@
       </Compile>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\GerundOrInfinitive.Domain\GerundOrInfinitive.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
