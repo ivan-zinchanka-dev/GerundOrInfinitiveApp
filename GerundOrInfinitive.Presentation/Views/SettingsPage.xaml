@@ -14,6 +14,12 @@
             HorizontalOptions="Center" 
             VerticalOptions="Center"
         />
+        <!--<HorizontalStackLayout Spacing="5">
+            <Label Text="The" HeightRequest="20" />
+            <Entry x:Name="word1Entry" WidthRequest="50" Placeholder="_____" />
+            <Label Text="is blue." />
+        </HorizontalStackLayout>-->
+        
     </VerticalStackLayout>
     
     
