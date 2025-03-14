@@ -10,12 +10,9 @@ public partial class MainPage : ContentPage
         InitializeComponent();
     }
 
-    private void OnStartClick(object sender, EventArgs eventArgs)
+    private async void OnStartClick(object sender, EventArgs eventArgs)
     {
-        Console.WriteLine("Console testing");
-        Debug.WriteLine("Debug testing");
-        
-        Console.WriteLine(new TestService().Get());
+        await Navigation.PushAsync(new TestingPage(), true);
     }
 
     private async void OnSettingsClick(object sender, EventArgs eventArgs)

@@ -17,9 +17,9 @@ public class Teacher
         new Example()
         {
             Id = 1,
-            SourceSentence = "In court the accused admitted (to) ... the documents.",
-            UsedWord = "steal",
-            CorrectAnswer = "stealing"
+            SourceSentence = "I always try to avoid ... in the rush hour.",
+            UsedWord = "drive",
+            CorrectAnswer = "driving"
         },
         new Example()
         {
