@@ -2,38 +2,21 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:system="clr-namespace:System;assembly=System.Runtime"
              x:Class="GerundOrInfinitive.Presentation.Views.TestingPage">
-    <VerticalStackLayout Spacing="5">
-        <FlexLayout Direction="Row" Wrap="Wrap">
-            <Label Text="&#x0009;In court the accused admitted (to) " LineBreakMode="WordWrap" />
-            <Entry WidthRequest="100" HeightRequest="40" Placeholder="_____" />
-            <Label Text=" the documents." LineBreakMode="WordWrap" />
-        </FlexLayout>
-        <FlexLayout Direction="Row" Wrap="Wrap">
-            <Label Text="I always try to avoid " LineBreakMode="WordWrap" />
-            <Entry WidthRequest="50" Placeholder="_____" />
-            <Label Text=" in the rush hour." LineBreakMode="WordWrap" />
-        </FlexLayout>
-        <FlexLayout Direction="Row" Wrap="Wrap">
-            <Label Text="I can''t afford " LineBreakMode="WordWrap" />
-            <Entry WidthRequest="50" Placeholder="_____" />
-            <Label Text=" on holiday this summer." LineBreakMode="WordWrap" />
-        </FlexLayout>
-        <FlexLayout Direction="Row" Wrap="Wrap">
-            <Label Text="The organization I work for helps young people " LineBreakMode="WordWrap" />
-            <Entry WidthRequest="50" Placeholder="_____" />
-            <Label Text=" work abroad." LineBreakMode="WordWrap" />
-        </FlexLayout>
-        
-        
-    </VerticalStackLayout>
+    <Grid>
+        <ListView HasUnevenRows="True" ItemsSource="{Binding SourceTasks}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <FlexLayout Direction="Row" Wrap="Wrap">
+                            <Label Text="{Binding BeforeBlankText}" LineBreakMode="WordWrap"/>
+                            <Entry WidthRequest="50" Placeholder="_____" />
+                            <Label Text="{Binding AfterBlankText}" LineBreakMode="WordWrap"/>
+                        </FlexLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
     
-    
-    
-    <!--<ListView>
-        
-        
-        
-    </ListView>-->
 </ContentPage>

@@ -39,9 +39,9 @@ public class Teacher
     };
     
     
-    public IEnumerable<ExampleTask> GenerateTasks()
+    public IEnumerable<SourceTask> GenerateTasks()
     {
-        return Examples.Select(example => new ExampleTask(example.Id, example.SourceSentence, example.UsedWord));
+        return Examples.Select(example => new SourceTask(example.Id, example.SourceSentence, example.UsedWord));
     }
 
     public IEnumerable<CheckedTask> CheckAnsweredTasks(IEnumerable<AnsweredTask> answeredTasks)
@@ -51,12 +51,12 @@ public class Teacher
 
     private CheckedTask CheckTask(AnsweredTask answeredTask)
     {
-        Example foundExample = Examples.Find(example => example.Id == answeredTask.ExampleTask.TaskId);
+        Example foundExample = Examples.Find(example => example.Id == answeredTask.SourceTask.TaskId);
 
         if (foundExample != null)
         {
             return new CheckedTask(
-                answeredTask.ExampleTask, 
+                answeredTask.SourceTask, 
                 answeredTask.UserAnswer, 
                 foundExample.CorrectAnswer, 
                 foundExample.AlternativeCorrectAnswer);

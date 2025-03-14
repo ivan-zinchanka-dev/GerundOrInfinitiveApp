@@ -2,12 +2,12 @@
 
 public struct AnsweredTask
 {
-    public ExampleTask ExampleTask { get; }
+    public SourceTask SourceTask { get; }
     public string UserAnswer { get; }
 
-    public AnsweredTask(ExampleTask exampleTask, string userAnswer)
+    public AnsweredTask(SourceTask sourceTask, string userAnswer)
     {
-        ExampleTask = exampleTask;
+        SourceTask = sourceTask;
         UserAnswer = userAnswer;
     }
 }

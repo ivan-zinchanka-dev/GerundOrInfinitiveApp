@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GerundOrInfinitive.Presentation.ViewModels;
 
 namespace GerundOrInfinitive.Presentation.Views;
 
 public partial class TestingPage : ContentPage
 {
-    public TestingPage()
+    private readonly TestingViewModel _viewModel;
+    
+    public TestingPage(TestingViewModel viewModel)
     {
+        _viewModel = viewModel;
+        BindingContext = _viewModel;
         InitializeComponent();
     }
 }

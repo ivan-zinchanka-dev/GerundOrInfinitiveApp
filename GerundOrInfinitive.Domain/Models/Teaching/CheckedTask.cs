@@ -2,7 +2,7 @@
 
 public readonly struct CheckedTask
 {
-    public ExampleTask ExampleTask { get; }
+    public SourceTask SourceTask { get; }
     public string UserAnswer { get; }
     public string CorrectAnswer { get; }
     public string AlternativeCorrectAnswer { get; }
@@ -12,12 +12,12 @@ public readonly struct CheckedTask
     public string CorrectSentence => GetCorrectSentence();
 
     public CheckedTask(
-        ExampleTask exampleTask, 
+        SourceTask sourceTask, 
         string userAnswer, 
         string correctAnswer, 
         string alternativeCorrectAnswer)
     {
-        ExampleTask = exampleTask;
+        SourceTask = sourceTask;
         UserAnswer = userAnswer;
         CorrectAnswer = correctAnswer;
         AlternativeCorrectAnswer = alternativeCorrectAnswer;
@@ -25,12 +25,12 @@ public readonly struct CheckedTask
 
     public static CheckedTask Invalid => 
         new CheckedTask(
-            new ExampleTask(-1, string.Empty, string.Empty), 
+            new SourceTask(-1, string.Empty, string.Empty), 
             string.Empty, string.Empty, string.Empty);
 
     private string GetCorrectSentence()
     {
-        return ExampleTask.SourceSentence.Replace(Gap, CorrectAnswer);
+        return SourceTask.SourceSentence.Replace(Gap, CorrectAnswer);
     }
 
     private bool GetResult()

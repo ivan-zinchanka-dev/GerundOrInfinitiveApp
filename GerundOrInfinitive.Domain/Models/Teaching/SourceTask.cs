@@ -1,12 +1,12 @@
 ﻿namespace GerundOrInfinitive.Domain.Models.Teaching;
 
-public readonly struct ExampleTask
+public readonly struct SourceTask
 {
     public int TaskId { get; }
     public string SourceSentence { get; }
     public string UsedWord { get; }
     
-    public ExampleTask(int taskId, string sourceSentence, string usedWord)
+    public SourceTask(int taskId, string sourceSentence, string usedWord)
     {
         TaskId = taskId;
         SourceSentence = sourceSentence;
