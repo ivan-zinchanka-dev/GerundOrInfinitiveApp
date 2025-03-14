@@ -4,14 +4,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GerundOrInfinitive.Presentation.Views.TestingPage">
     <Grid>
-        <ListView HasUnevenRows="True" ItemsSource="{Binding SourceTasks}">
+        <ListView HasUnevenRows="True" 
+                  Margin="10"
+                  ItemsSource="{Binding SourceTasks}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <FlexLayout Direction="Row" Wrap="Wrap">
-                            <Label Text="{Binding BeforeBlankText}" LineBreakMode="WordWrap"/>
-                            <Entry WidthRequest="50" Placeholder="_____" />
-                            <Label Text="{Binding AfterBlankText}" LineBreakMode="WordWrap"/>
+                            <Label Text="{Binding BeforeBlankText}" 
+                                   LineBreakMode="WordWrap"
+                                   VerticalOptions="Center"
+                                   BackgroundColor="Beige"
+                                   />
+                            <Entry WidthRequest="70"
+                                   Text="entr"
+                                   VerticalOptions="Center"
+                                   BackgroundColor="SeaShell"
+                                   />
+                            <Label Text="{Binding AfterBlankText}" 
+                                   LineBreakMode="WordWrap"
+                                   VerticalOptions="Center"
+                                   BackgroundColor="Beige"
+                                   />
                         </FlexLayout>
                     </ViewCell>
                 </DataTemplate>
