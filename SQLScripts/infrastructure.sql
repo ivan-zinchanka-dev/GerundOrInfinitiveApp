@@ -8,7 +8,7 @@ CREATE TABLE Examples (
 CREATE TABLE AlternativeCorrectAnswers (
     Id INTEGER PRIMARY KEY AUTOINCREMENT,
     ExampleId INTEGER NOT NULL,
-    AlternativeCorrectAnswer TEXT NOT NULL,
+    Answer TEXT NOT NULL,
     
     FOREIGN KEY (ExampleId) REFERENCES Examples(Id) ON DELETE CASCADE ON UPDATE CASCADE
 );
