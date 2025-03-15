@@ -1,19 +1,18 @@
-﻿using GerundOrInfinitive.Domain.Services;
-using GerundOrInfinitive.Presentation.Services;
+﻿using GerundOrInfinitive.Presentation.Services;
 using Microsoft.Extensions.Logging;
 
 namespace GerundOrInfinitive.Presentation;
 
 public static class MauiProgram
 {
+    public static string DatabasePath { get; private set; } = null;
+
     public static MauiApp CreateMauiApp()
     {
         Task.Run(async () =>
         {
-            await ResourcePreloader.CopyDatabaseIfNotExists();
+            DatabasePath = await MauiAssetDeployer.DeployAssetIfNeed("gerund_or_infinitive.db");
         });
-        
-        Console.WriteLine("Copied");
         
         var builder = MauiApp.CreateBuilder();
         builder

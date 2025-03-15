@@ -13,7 +13,10 @@ public partial class MainPage : ContentPage
 
     private async void OnStartClick(object sender, EventArgs eventArgs)
     {
-        await Navigation.PushAsync(new TestingPage(new TestingViewModel()), true);
+        if (MauiProgram.DatabasePath != null)
+        {
+            await Navigation.PushAsync(new TestingPage(new TestingViewModel()), true);
+        }
     }
 
     private async void OnSettingsClick(object sender, EventArgs eventArgs)

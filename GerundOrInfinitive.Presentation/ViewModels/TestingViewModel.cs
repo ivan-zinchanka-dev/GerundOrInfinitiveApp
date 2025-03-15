@@ -23,8 +23,13 @@ public class TestingViewModel : BaseViewModel
 
     public TestingViewModel()
     {
-        _teacher = new Teacher();
-        SourceTasks = new ObservableCollection<SourceTaskViewModel>(_teacher.GenerateTasks().Select(Map));
+        _teacher = new Teacher(new ExampleRepository(MauiProgram.DatabasePath));
+        
+        _teacher.GenerateTasksAsync().ContinueWith(task =>
+        {
+            SourceTasks = new ObservableCollection<SourceTaskViewModel>(task.Result.Select(Map));
+            
+        }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
     private SourceTaskViewModel Map(SourceTask sourceTask)

@@ -5,7 +5,10 @@ namespace GerundOrInfinitive.Domain.Services;
 
 public class Teacher
 {
-    private static readonly List<Example> Examples = new List<Example>()
+    private readonly ExampleRepository _exampleRepository;
+    private List<Example> _examples;
+    
+    /*private static readonly List<Example> Examples = new List<Example>()
     {
         new Example()
         {
@@ -34,24 +37,32 @@ public class Teacher
             SourceSentence = "The organization I work for helps young people ... work abroad.",
             UsedWord = "find",
             CorrectAnswer = "to find",
-            AlternativeCorrectAnswer = "find"
         },
-    };
-    
-    
-    public IEnumerable<SourceTask> GenerateTasks()
+    };*/
+
+    public Teacher(ExampleRepository exampleRepository)
     {
-        return Examples.Select(example => new SourceTask(example.Id, example.SourceSentence, example.UsedWord));
+        _exampleRepository = exampleRepository;
+    }
+    
+
+    public async Task<IEnumerable<SourceTask>> GenerateTasksAsync()
+    {
+        _examples ??= await _exampleRepository.GetAllExamplesAsync();
+
+        return _examples.Select(example => new SourceTask(example.Id, example.SourceSentence, example.UsedWord));
     }
 
-    public IEnumerable<CheckedTask> CheckAnsweredTasks(IEnumerable<AnsweredTask> answeredTasks)
+    public async Task<IEnumerable<CheckedTask>> CheckAnsweredTasksAsync(IEnumerable<AnsweredTask> answeredTasks)
     {
+        _examples ??= await _exampleRepository.GetAllExamplesAsync();
+        
         return answeredTasks.Select(CheckTask);
     }
 
     private CheckedTask CheckTask(AnsweredTask answeredTask)
     {
-        Example foundExample = Examples.Find(example => example.Id == answeredTask.SourceTask.TaskId);
+        Example foundExample = _examples.Find(example => example.Id == answeredTask.SourceTask.TaskId);
 
         if (foundExample != null)
         {
@@ -59,7 +70,7 @@ public class Teacher
                 answeredTask.SourceTask, 
                 answeredTask.UserAnswer, 
                 foundExample.CorrectAnswer, 
-                foundExample.AlternativeCorrectAnswer);
+                null);
         }
         else
         {
