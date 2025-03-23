@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using GerundOrInfinitive.Domain.Models.Teaching;
 using GerundOrInfinitive.Domain.Services;
 using GerundOrInfinitive.Presentation.ViewModels.Base;
@@ -8,16 +9,42 @@ namespace GerundOrInfinitive.Presentation.ViewModels;
 public class TestingViewModel : BaseViewModel
 {
     private readonly Teacher _teacher;
-    private ObservableCollection<SourceTaskViewModel> _sourceTasks = new ObservableCollection<SourceTaskViewModel>();
+    private ObservableCollection<TaskViewModel> _taskViewModels = new ObservableCollection<TaskViewModel>();
+    private Command _submitCommand;
     
-    public ObservableCollection<SourceTaskViewModel> SourceTasks
+    public ObservableCollection<TaskViewModel> TaskViewModels
     {
-        get => _sourceTasks;
+        get => _taskViewModels;
 
         set
         {
-            _sourceTasks = value;
+            _taskViewModels = value;
             OnPropertyChanged();
+        }
+    }
+
+    public ICommand SubmitCommand
+    {
+        get
+        {
+            Console.WriteLine("SUBMIT");
+            
+            return _submitCommand ??= new Command(Submit);
+        }
+    }
+
+    private async void Submit()
+    {
+        IEnumerable<CheckedTask> checkingResult = await _teacher.CheckAnsweredTasksAsync(_taskViewModels.Select(Map));
+        
+        List<TaskViewModel> taskViewModels = _taskViewModels.ToList();
+        List<CheckedTask> checkedTasks = checkingResult.ToList();
+        
+        int tasksCount = Math.Min(taskViewModels.Count, checkedTasks.Count);
+
+        for (int i = 0; i < tasksCount; i++)
+        {
+            taskViewModels[i].SetCheckedTask(checkedTasks[i]);
         }
     }
 
@@ -27,13 +54,18 @@ public class TestingViewModel : BaseViewModel
         
         _teacher.GenerateTasksAsync().ContinueWith(task =>
         {
-            SourceTasks = new ObservableCollection<SourceTaskViewModel>(task.Result.Select(Map));
+            TaskViewModels = new ObservableCollection<TaskViewModel>(task.Result.Select(Map));
             
         }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
-    private SourceTaskViewModel Map(SourceTask sourceTask)
+    private TaskViewModel Map(SourceTask sourceTask)
     {
-        return new SourceTaskViewModel(sourceTask);
+        return new TaskViewModel(sourceTask);
+    }
+    
+    private AnsweredTask Map(TaskViewModel taskViewModel)
+    {
+        return taskViewModel.GetAnsweredTask();
     }
 }

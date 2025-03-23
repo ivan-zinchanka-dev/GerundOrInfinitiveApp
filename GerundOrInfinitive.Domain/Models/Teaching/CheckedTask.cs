@@ -32,7 +32,8 @@ public readonly struct CheckedTask
     {
         return SourceTask.SourceSentence.Replace(Gap, CorrectAnswer);
     }
-
+    
+    // TODO User answer is null
     private bool GetResult()
     {
         return AreEqualAnswers(UserAnswer, CorrectAnswer) || AreEqualAnswers(UserAnswer, AlternativeCorrectAnswer);
