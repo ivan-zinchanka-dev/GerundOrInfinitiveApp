@@ -4,33 +4,48 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GerundOrInfinitive.Presentation.Views.TestingPage">
     <Grid>
-        <ListView HasUnevenRows="True" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.9*"/>
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
+        <ListView Grid.Row="0"
+                  HasUnevenRows="True" 
                   Margin="10"
                   ItemsSource="{Binding SourceTasks}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <FlexLayout Direction="Row" Wrap="Wrap">
-                            <Label Text="{Binding BeforeBlankText}" 
-                                   LineBreakMode="WordWrap"
-                                   VerticalOptions="Center"
-                                   BackgroundColor="Beige"
-                                   />
-                            <Entry WidthRequest="70"
-                                   Text="entr"
-                                   VerticalOptions="Center"
-                                   BackgroundColor="SeaShell"
-                                   />
-                            <Label Text="{Binding AfterBlankText}" 
-                                   LineBreakMode="WordWrap"
-                                   VerticalOptions="Center"
-                                   BackgroundColor="Beige"
-                                   />
-                        </FlexLayout>
+                        <StackLayout Orientation="Vertical"
+                                     BackgroundColor="White">
+                            <FlexLayout Direction="Row" Wrap="Wrap">
+                                <Label Text="{Binding BeforeBlankText}" 
+                                       LineBreakMode="WordWrap"
+                                       VerticalOptions="Center"
+                                       BackgroundColor="Beige"
+                                />
+                                <Entry WidthRequest="70"
+                                       VerticalOptions="Center"
+                                       BackgroundColor="SeaShell"
+                                />
+                                <Label Text="{Binding AfterBlankText}" 
+                                       LineBreakMode="WordWrap"
+                                       VerticalOptions="Center"
+                                       BackgroundColor="Beige"
+                                />
+                            </FlexLayout>
+                            <StackLayout Orientation="Horizontal"
+                                         IsVisible="False">
+                                <Label Text="Correct answer: the word"/>
+                            </StackLayout>
+                        </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Button Grid.Row ="1"
+                Text="Submit"
+                Margin="10 20 10 20"
+                />
     </Grid>
     
 </ContentPage>

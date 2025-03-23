@@ -14,6 +14,6 @@ public class ExampleRepository
 
     public Task<List<Example>> GetAllExamplesAsync()
     {
-        return _database.Table<Example>().Take(5).ToListAsync();
+        return _database.Table<Example>().Take(15).ToListAsync();
     }
 }
