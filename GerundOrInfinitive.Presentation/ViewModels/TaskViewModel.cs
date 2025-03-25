@@ -7,17 +7,39 @@ public class TaskViewModel : BaseViewModel
 {
     private const string CorrectAnswerPattern = "Correct answer: {0}";
     
-    private readonly SourceTask _sourceTask;
-    private CheckedTask _checkedTask;
+    private string _inputBlackText;
+    private string _correctAnswer;
     private CheckingStatus _checkingStatus;
     private bool _isChecked;
     
+    private readonly SourceTask _sourceTask;
+    private CheckedTask _checkedTask;
+    
     public string BeforeBlankText { get; }
-    public string InputBlankText { get; }
     public string AfterBlankText { get; }
 
-    public string CorrectAnswer { get; private set; }
+    public string InputBlankText
+    {
+        get => _inputBlackText;
 
+        set
+        {
+            _inputBlackText = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string CorrectAnswer
+    {
+        get => _correctAnswer;
+
+        set
+        {
+            _correctAnswer = value;
+            OnPropertyChanged();
+        }
+    }
+    
     public CheckingStatus Status
     {
         get => _checkingStatus;
