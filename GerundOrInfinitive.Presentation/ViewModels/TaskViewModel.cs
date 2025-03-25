@@ -9,6 +9,7 @@ public class TaskViewModel : BaseViewModel
     
     private readonly SourceTask _sourceTask;
     private CheckedTask _checkedTask;
+    private CheckingStatus _checkingStatus;
     private bool _isChecked;
     
     public string BeforeBlankText { get; }
@@ -16,7 +17,17 @@ public class TaskViewModel : BaseViewModel
     public string AfterBlankText { get; }
 
     public string CorrectAnswer { get; private set; }
-    public CheckingStatus Status { get; private set; }
+
+    public CheckingStatus Status
+    {
+        get => _checkingStatus;
+
+        set
+        {
+            _checkingStatus = value;
+            OnPropertyChanged();
+        }
+    }
 
     public bool IsChecked
     {
@@ -53,12 +64,5 @@ public class TaskViewModel : BaseViewModel
         CorrectAnswer = string.Format(CorrectAnswerPattern, _checkedTask.CorrectAnswer);
         Status = _checkedTask.Result ? CheckingStatus.Correct : CheckingStatus.Incorrect;
         IsChecked = true;
-    }
-    
-    public enum CheckingStatus
-    {
-        Unchecked = 0,
-        Correct = 1,
-        Incorrect = 2,
     }
 }

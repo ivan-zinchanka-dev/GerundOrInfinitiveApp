@@ -2,7 +2,11 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:GerundOrInfinitive.Presentation.Converters"
              x:Class="GerundOrInfinitive.Presentation.Views.TestingPage">
+    <ContentPage.Resources>
+        <converters:CheckingStatusToBackgroundConverter x:Key="CheckingStatusToBackgroundConverter"/>
+    </ContentPage.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.9*"/>
@@ -16,22 +20,19 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Vertical"
-                                     BackgroundColor="White">
+                                     BackgroundColor="{Binding Status, Converter={StaticResource CheckingStatusToBackgroundConverter}}">
                             <FlexLayout Direction="Row" Wrap="Wrap">
                                 <Label Text="{Binding BeforeBlankText}" 
                                        LineBreakMode="WordWrap"
                                        VerticalOptions="Center"
-                                       BackgroundColor="Beige"
                                 />
                                 <Entry Text = "{Binding InputBlankText}" 
                                        WidthRequest="70"
                                        VerticalOptions="Center"
-                                       BackgroundColor="SeaShell"
                                 />
                                 <Label Text="{Binding AfterBlankText}" 
                                        LineBreakMode="WordWrap"
                                        VerticalOptions="Center"
-                                       BackgroundColor="Beige"
                                 />
                             </FlexLayout>
                             <StackLayout Orientation="Horizontal"
