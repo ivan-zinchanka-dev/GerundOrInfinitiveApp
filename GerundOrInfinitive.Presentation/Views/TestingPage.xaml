@@ -18,6 +18,7 @@
                         <StackLayout Orientation="Vertical"
                                      BackgroundColor="{Binding Status, 
                                      Converter={StaticResource CheckingStatusToBackgroundConverter}}">
+                            <Label Text="{Binding SourceVerbText}"/>
                             <FlexLayout Direction="Row" Wrap="Wrap">
                                 <Label Text="{Binding BeforeBlankText}" 
                                        LineBreakMode="WordWrap"

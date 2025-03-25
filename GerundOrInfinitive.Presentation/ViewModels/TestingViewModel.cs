@@ -54,14 +54,16 @@ public class TestingViewModel : BaseViewModel
         
         _teacher.GenerateTasksAsync().ContinueWith(task =>
         {
-            TaskViewModels = new ObservableCollection<TaskViewModel>(task.Result.Select(Map));
+            List<SourceTask> sourceTasks = task.Result.ToList();
+            TaskViewModels = new ObservableCollection<TaskViewModel>(sourceTasks.Select(sourceTask=> 
+                Map(sourceTask, sourceTasks.IndexOf(sourceTask))));
             
         }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
-    private TaskViewModel Map(SourceTask sourceTask)
+    private TaskViewModel Map(SourceTask sourceTask, int taskIndex)
     {
-        return new TaskViewModel(sourceTask);
+        return new TaskViewModel(sourceTask, ++taskIndex);
     }
     
     private AnsweredTask Map(TaskViewModel taskViewModel)

@@ -6,6 +6,7 @@ namespace GerundOrInfinitive.Presentation.ViewModels;
 public class TaskViewModel : BaseViewModel
 {
     private const string CorrectAnswerPattern = "Correct answer: {0}";
+    private const string SourceVerbPattern = "{0}) Source verb: {1}";
     
     private string _inputBlackText;
     private string _correctAnswer;
@@ -14,7 +15,8 @@ public class TaskViewModel : BaseViewModel
     
     private readonly SourceTask _sourceTask;
     private CheckedTask _checkedTask;
-    
+
+    public string SourceVerbText { get; }
     public string BeforeBlankText { get; }
     public string AfterBlankText { get; }
 
@@ -62,7 +64,7 @@ public class TaskViewModel : BaseViewModel
         }
     }
 
-    public TaskViewModel(SourceTask sourceTask)
+    public TaskViewModel(SourceTask sourceTask, int taskNumber)
     {
         _sourceTask = sourceTask;
 
@@ -73,6 +75,8 @@ public class TaskViewModel : BaseViewModel
         CorrectAnswer = string.Empty;
         Status = CheckingStatus.Unchecked;
         IsChecked = false;
+        
+        SourceVerbText = string.Format(SourceVerbPattern, taskNumber, _sourceTask.UsedWord);
     }
 
     public AnsweredTask GetAnsweredTask()
