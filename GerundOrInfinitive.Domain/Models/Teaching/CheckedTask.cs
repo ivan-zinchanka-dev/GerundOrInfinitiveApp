@@ -36,11 +36,15 @@ public readonly struct CheckedTask
     // TODO User answer is null
     private bool GetResult()
     {
-        return AreEqualAnswers(UserAnswer, CorrectAnswer) || AreEqualAnswers(UserAnswer, AlternativeCorrectAnswer);
+        return AreEqualAnswers(UserAnswer, CorrectAnswer) || 
+               (AlternativeCorrectAnswer != null && AreEqualAnswers(UserAnswer, AlternativeCorrectAnswer));
     }
 
     private static bool AreEqualAnswers(string answerOne, string answerTwo)
     {
-        return string.Equals(answerOne.Trim(), answerTwo.Trim(), StringComparison.OrdinalIgnoreCase);
+        answerOne = answerOne?.Trim();
+        answerTwo = answerTwo?.Trim();
+
+        return string.Equals(answerOne, answerTwo, StringComparison.OrdinalIgnoreCase);
     }
 }

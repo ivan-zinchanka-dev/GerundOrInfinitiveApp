@@ -35,7 +35,7 @@
                                 />
                             </FlexLayout>
                             <StackLayout Orientation="Horizontal"
-                                         IsVisible="False">
+                                         IsVisible="{Binding IsChecked}">
                                 <Label Text="Correct answer: the word"/>
                             </StackLayout>
                         </StackLayout>
