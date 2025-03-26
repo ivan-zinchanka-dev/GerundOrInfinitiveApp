@@ -15,7 +15,7 @@ public partial class MainPage : ContentPage
     {
         if (MauiProgram.DatabasePath != null)
         {
-            await Navigation.PushAsync(new TestingPage(new TestingViewModel()), true);
+            await Navigation.PushAsync(new TestingPage(new TestingViewModel(Navigation)), true);
         }
     }
 

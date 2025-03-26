@@ -6,12 +6,16 @@ using GerundOrInfinitive.Presentation.ViewModels.Base;
 
 namespace GerundOrInfinitive.Presentation.ViewModels;
 
+// TODO Add Microsoft DI, Logging
 public class TestingViewModel : BaseViewModel
 {
+    private bool _isChecked = false;
+    
     private string _messageText;
     private ObservableCollection<TaskViewModel> _taskViewModels = new ObservableCollection<TaskViewModel>();
     private Command _submitCommand;
 
+    private readonly INavigation _navigation;
     private readonly Teacher _teacher;
 
     public string MessageText
@@ -44,8 +48,9 @@ public class TestingViewModel : BaseViewModel
         }
     }
     
-    public TestingViewModel()
+    public TestingViewModel(INavigation navigation)
     {
+        _navigation = navigation;
         _teacher = new Teacher(new ExampleRepository(MauiProgram.DatabasePath));
         
         _teacher.GenerateTasksAsync().ContinueWith(task =>
@@ -70,6 +75,19 @@ public class TestingViewModel : BaseViewModel
     }
     
     private async void Submit()
+    {
+        if (!_isChecked)
+        {
+            await CheckTasks();
+            _isChecked = true;
+        }
+        else
+        {
+            await _navigation.PopAsync();
+        }
+    }
+
+    private async Task CheckTasks()
     {
         IEnumerable<CheckedTask> checkingResult = await _teacher.CheckAnsweredTasksAsync(_taskViewModels.Select(Map));
         
