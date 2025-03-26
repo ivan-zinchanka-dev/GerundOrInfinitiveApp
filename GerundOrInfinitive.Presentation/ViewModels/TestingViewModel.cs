@@ -8,10 +8,23 @@ namespace GerundOrInfinitive.Presentation.ViewModels;
 
 public class TestingViewModel : BaseViewModel
 {
-    private readonly Teacher _teacher;
+    private string _messageText;
     private ObservableCollection<TaskViewModel> _taskViewModels = new ObservableCollection<TaskViewModel>();
     private Command _submitCommand;
-    
+
+    private readonly Teacher _teacher;
+
+    public string MessageText
+    {
+        get => _messageText;
+
+        set
+        {
+            _messageText = value;
+            OnPropertyChanged();
+        }
+    }
+
     public ObservableCollection<TaskViewModel> TaskViewModels
     {
         get => _taskViewModels;
@@ -27,12 +40,35 @@ public class TestingViewModel : BaseViewModel
     {
         get
         {
-            Console.WriteLine("SUBMIT");
-            
             return _submitCommand ??= new Command(Submit);
         }
     }
+    
+    public TestingViewModel()
+    {
+        _teacher = new Teacher(new ExampleRepository(MauiProgram.DatabasePath));
+        
+        _teacher.GenerateTasksAsync().ContinueWith(task =>
+        {
+            List<SourceTask> sourceTasks = task.Result.ToList();
+            TaskViewModels = new ObservableCollection<TaskViewModel>(sourceTasks.Select(sourceTask=> 
+                Map(sourceTask, sourceTasks.IndexOf(sourceTask))));
+            
+        }, TaskScheduler.FromCurrentSynchronizationContext());
 
+        MessageText = Application.Current.Resources["Tutorial"] as string;
+    }
+
+    private TaskViewModel Map(SourceTask sourceTask, int taskIndex)
+    {
+        return new TaskViewModel(sourceTask, ++taskIndex);
+    }
+    
+    private AnsweredTask Map(TaskViewModel taskViewModel)
+    {
+        return taskViewModel.GetAnsweredTask();
+    }
+    
     private async void Submit()
     {
         IEnumerable<CheckedTask> checkingResult = await _teacher.CheckAnsweredTasksAsync(_taskViewModels.Select(Map));
@@ -46,28 +82,17 @@ public class TestingViewModel : BaseViewModel
         {
             taskViewModels[i].SetCheckedTask(checkedTasks[i]);
         }
+
+        MessageText = GetCheckingResultText(checkedTasks);
     }
 
-    public TestingViewModel()
+    private string GetCheckingResultText(List<CheckedTask> checkedTasks)
     {
-        _teacher = new Teacher(new ExampleRepository(MauiProgram.DatabasePath));
-        
-        _teacher.GenerateTasksAsync().ContinueWith(task =>
-        {
-            List<SourceTask> sourceTasks = task.Result.ToList();
-            TaskViewModels = new ObservableCollection<TaskViewModel>(sourceTasks.Select(sourceTask=> 
-                Map(sourceTask, sourceTasks.IndexOf(sourceTask))));
-            
-        }, TaskScheduler.FromCurrentSynchronizationContext());
+        string resultPattern = Application.Current.Resources["CheckingResult"] as string;
+
+        int correctTasksCount = checkedTasks.Count(task => task.Result);
+
+        return string.Format(resultPattern, correctTasksCount, checkedTasks.Count);
     }
 
-    private TaskViewModel Map(SourceTask sourceTask, int taskIndex)
-    {
-        return new TaskViewModel(sourceTask, ++taskIndex);
-    }
-    
-    private AnsweredTask Map(TaskViewModel taskViewModel)
-    {
-        return taskViewModel.GetAnsweredTask();
-    }
 }
