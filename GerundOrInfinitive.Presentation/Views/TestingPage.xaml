@@ -18,7 +18,9 @@
                         <StackLayout Orientation="Vertical"
                                      BackgroundColor="{Binding Status, 
                                      Converter={StaticResource CheckingStatusToBackgroundConverter}}">
-                            <Label Text="{Binding SourceVerbText}"/>
+                            <Label Text="{Binding SourceVerbText}"
+                                   TextType="Html"
+                                   />
                             <FlexLayout Direction="Row" Wrap="Wrap">
                                 <Label Text="{Binding BeforeBlankText}" 
                                        LineBreakMode="WordWrap"
@@ -45,6 +47,7 @@
         <Button Grid.Row ="1"
                 Text="Submit"
                 Command="{Binding SubmitCommand}"
+                Margin= "10"
                 />
     </Grid>
     

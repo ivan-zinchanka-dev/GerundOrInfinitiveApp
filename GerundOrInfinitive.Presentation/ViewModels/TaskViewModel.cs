@@ -6,7 +6,7 @@ namespace GerundOrInfinitive.Presentation.ViewModels;
 public class TaskViewModel : BaseViewModel
 {
     private const string CorrectAnswerPattern = "Correct answer: {0}";
-    private const string SourceVerbPattern = "{0}) Source verb: {1}";
+    private const string SourceVerbPattern = "{0}) Source verb: <b>{1}</b>";
     
     private string _inputBlackText;
     private string _correctAnswer;
