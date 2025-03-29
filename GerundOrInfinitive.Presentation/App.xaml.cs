@@ -7,9 +7,9 @@ namespace GerundOrInfinitive.Presentation;
 public partial class App : Application
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly NavigationService _navigationService;
+    private readonly INavigationService _navigationService;
     
-    public App(IServiceProvider serviceProvider, NavigationService navigationService)
+    public App(IServiceProvider serviceProvider, INavigationService navigationService)
     {
         _serviceProvider = serviceProvider;
         _navigationService = navigationService;

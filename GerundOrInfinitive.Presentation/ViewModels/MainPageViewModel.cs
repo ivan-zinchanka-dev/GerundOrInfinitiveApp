@@ -8,7 +8,7 @@ namespace GerundOrInfinitive.Presentation.ViewModels;
 
 public class MainPageViewModel : BaseViewModel
 {
-    private readonly NavigationService _navigationService;
+    private readonly INavigationService _navigationService;
     
     private Command _startTestingCommand;
     
@@ -20,7 +20,7 @@ public class MainPageViewModel : BaseViewModel
         }
     }
     
-    public MainPageViewModel(NavigationService navigationService)
+    public MainPageViewModel(INavigationService navigationService)
     {
         _navigationService = navigationService;
     }

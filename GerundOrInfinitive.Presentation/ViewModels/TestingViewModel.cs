@@ -3,16 +3,16 @@ using System.Windows.Input;
 using GerundOrInfinitive.Domain.Models.Settings;
 using GerundOrInfinitive.Domain.Models.Teaching;
 using GerundOrInfinitive.Domain.Services;
+using GerundOrInfinitive.Presentation.Services.Contracts;
 using GerundOrInfinitive.Presentation.Services.Implementations;
 using GerundOrInfinitive.Presentation.ViewModels.Base;
 
 namespace GerundOrInfinitive.Presentation.ViewModels;
 
-// TODO Add Microsoft DI, Logging
 public class TestingViewModel : BaseViewModel
 {
     private readonly AppSettings _appSettings;
-    private readonly NavigationService _navigationService;
+    private readonly INavigationService _navigationService;
     private readonly Teacher _teacher;
     
     private bool _isChecked = false;
@@ -53,7 +53,7 @@ public class TestingViewModel : BaseViewModel
         }
     }
     
-    public TestingViewModel(AppSettings appSettings, NavigationService navigationService, Teacher teacher)
+    public TestingViewModel(AppSettings appSettings, INavigationService navigationService, Teacher teacher)
     {
         _appSettings = appSettings;
         _navigationService = navigationService;

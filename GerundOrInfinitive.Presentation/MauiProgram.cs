@@ -1,6 +1,7 @@
 ﻿using GerundOrInfinitive.Domain.Models.Settings;
 using GerundOrInfinitive.Domain.Services;
 using GerundOrInfinitive.Presentation.Services;
+using GerundOrInfinitive.Presentation.Services.Contracts;
 using GerundOrInfinitive.Presentation.Services.Implementations;
 using GerundOrInfinitive.Presentation.ViewModels;
 using GerundOrInfinitive.Presentation.Views;
@@ -34,7 +35,7 @@ public static class MauiProgram
             .AddSingleton<AppSettings>(new AppSettings(databasePath))
             .AddSingleton<ExampleRepository>()
             .AddTransient<Teacher>()
-            .AddSingleton<NavigationService>()
+            .AddSingleton<INavigationService, NavigationService>()
             .AddTransient<MainPageViewModel>()
             .AddTransient<MainPage>()
             .AddTransient<TestingViewModel>()
