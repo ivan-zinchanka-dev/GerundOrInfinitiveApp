@@ -1,35 +1,15 @@
-﻿using System.Diagnostics;
-using GerundOrInfinitive.Domain;
-using GerundOrInfinitive.Presentation.ViewModels;
+﻿using GerundOrInfinitive.Presentation.ViewModels;
 
 namespace GerundOrInfinitive.Presentation.Views;
 
 public partial class MainPage : ContentPage
 {
-    public MainPage()
+    private MainPageViewModel _viewModel;
+    
+    public MainPage(MainPageViewModel viewModel)
     {
+        _viewModel = viewModel;
+        BindingContext = _viewModel;
         InitializeComponent();
-    }
-
-    private async void OnStartClick(object sender, EventArgs eventArgs)
-    {
-        if (MauiProgram.DatabasePath != null)
-        {
-            await Navigation.PushAsync(new TestingPage(new TestingViewModel(Navigation)), true);
-        }
-    }
-
-    private async void OnSettingsClick(object sender, EventArgs eventArgs)
-    {
-        try
-        {
-            await Navigation.PushAsync(new SettingsPage(), true);
-            
-            
-        }
-        catch (Exception e)
-        {
-            
-        }
     }
 }

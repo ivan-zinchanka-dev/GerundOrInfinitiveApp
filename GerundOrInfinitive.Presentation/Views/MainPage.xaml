@@ -13,12 +13,11 @@
                 WidthRequest="200"
                 HorizontalOptions="Center"
                 Text="Start testing"
-                Clicked="OnStartClick"/>
+                Command="{Binding StartTestingCommand}"/>
             <Button
                 WidthRequest="200"
                 HorizontalOptions="Center"
-                Text="Settings"
-                Clicked="OnSettingsClick"/>
+                Text="Settings"/>
         </VerticalStackLayout>
     </ScrollView>
 

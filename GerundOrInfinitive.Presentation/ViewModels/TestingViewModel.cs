@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using GerundOrInfinitive.Domain.Models.Teaching;
 using GerundOrInfinitive.Domain.Services;
+using GerundOrInfinitive.Presentation.Services.Implementations;
 using GerundOrInfinitive.Presentation.ViewModels.Base;
 
 namespace GerundOrInfinitive.Presentation.ViewModels;
@@ -15,7 +16,7 @@ public class TestingViewModel : BaseViewModel
     private ObservableCollection<TaskViewModel> _taskViewModels = new ObservableCollection<TaskViewModel>();
     private Command _submitCommand;
 
-    private readonly INavigation _navigation;
+    private readonly NavigationService _navigationService;
     private readonly Teacher _teacher;
 
     public string MessageText
@@ -48,9 +49,9 @@ public class TestingViewModel : BaseViewModel
         }
     }
     
-    public TestingViewModel(INavigation navigation)
+    public TestingViewModel(NavigationService navigationService)
     {
-        _navigation = navigation;
+        _navigationService = navigationService;
         _teacher = new Teacher(new ExampleRepository(MauiProgram.DatabasePath));
         
         _teacher.GenerateTasksAsync().ContinueWith(task =>
@@ -83,7 +84,7 @@ public class TestingViewModel : BaseViewModel
         }
         else
         {
-            await _navigation.PopAsync();
+            await _navigationService.GoBackAsync();
         }
     }
 
