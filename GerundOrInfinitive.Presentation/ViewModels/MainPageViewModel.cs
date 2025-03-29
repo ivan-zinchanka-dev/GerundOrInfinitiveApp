@@ -12,7 +12,6 @@ public class MainPageViewModel : BaseViewModel
     
     private Command _startTestingCommand;
     
-    
     public ICommand StartTestingCommand
     {
         get
@@ -28,10 +27,7 @@ public class MainPageViewModel : BaseViewModel
 
     private async void StartTesting()
     {
-        if (MauiProgram.DatabasePath != null)
-        {
-            await _navigationService.NavigateToAsync<TestingPage>();
-        }
+        await _navigationService.NavigateToAsync<TestingPage>();
     }
 
 }

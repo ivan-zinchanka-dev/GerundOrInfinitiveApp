@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using GerundOrInfinitive.Domain.Models.Settings;
 using GerundOrInfinitive.Domain.Models.Teaching;
 using GerundOrInfinitive.Domain.Services;
 using GerundOrInfinitive.Presentation.Services.Implementations;
@@ -10,14 +11,17 @@ namespace GerundOrInfinitive.Presentation.ViewModels;
 // TODO Add Microsoft DI, Logging
 public class TestingViewModel : BaseViewModel
 {
+    private readonly AppSettings _appSettings;
+    private readonly NavigationService _navigationService;
+    private readonly Teacher _teacher;
+    
     private bool _isChecked = false;
     
     private string _messageText;
     private ObservableCollection<TaskViewModel> _taskViewModels = new ObservableCollection<TaskViewModel>();
     private Command _submitCommand;
 
-    private readonly NavigationService _navigationService;
-    private readonly Teacher _teacher;
+    
 
     public string MessageText
     {
@@ -49,10 +53,11 @@ public class TestingViewModel : BaseViewModel
         }
     }
     
-    public TestingViewModel(NavigationService navigationService)
+    public TestingViewModel(AppSettings appSettings, NavigationService navigationService, Teacher teacher)
     {
+        _appSettings = appSettings;
         _navigationService = navigationService;
-        _teacher = new Teacher(new ExampleRepository(MauiProgram.DatabasePath));
+        _teacher = teacher;
         
         _teacher.GenerateTasksAsync().ContinueWith(task =>
         {
