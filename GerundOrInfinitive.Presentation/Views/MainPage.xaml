@@ -5,19 +5,38 @@
              NavigationPage.HasNavigationBar="False">
 
     <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            VerticalOptions="Center"
-            Spacing="25">
-            <Button
-                WidthRequest="200"
-                HorizontalOptions="Center"
-                Text="Start testing"
-                Command="{Binding StartTestingCommand}"/>
-            <Button
-                WidthRequest="200"
-                HorizontalOptions="Center"
-                Text="Settings"/>
+        <VerticalStackLayout Padding="30,0"
+                             VerticalOptions="Center"
+                             Spacing="50">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="0.3*"/>
+                    <ColumnDefinition Width="0.1*"/>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="0.2*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="1"
+                       VerticalOptions="Center"
+                       Text="Verbs count: "/>
+                <Entry Grid.Row="0" Grid.Column="3"
+                       VerticalOptions="Center"
+                       Text = "5"
+                       Placeholder="Verbs count"/>
+                <Label Grid.Row="1" Grid.Column="0"  Grid.ColumnSpan="5" 
+                       Text="Verbs count should be greater than 0 and less than 11"
+                       TextColor="Red"
+                />
+            </Grid>
+            
+            <Button WidthRequest="200"
+                    HorizontalOptions="Center"
+                    Text="Start testing"
+                    Command="{Binding StartTestingCommand}"/>
         </VerticalStackLayout>
     </ScrollView>
 

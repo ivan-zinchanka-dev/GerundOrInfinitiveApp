@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using GerundOrInfinitive.Domain.Models.Settings;
 using GerundOrInfinitive.Presentation.Services.Contracts;
 using GerundOrInfinitive.Presentation.Services.Implementations;
 using GerundOrInfinitive.Presentation.ViewModels.Base;
@@ -8,10 +9,23 @@ namespace GerundOrInfinitive.Presentation.ViewModels;
 
 public class MainPageViewModel : BaseViewModel
 {
+    private readonly AppSettings _appSettings;
     private readonly INavigationService _navigationService;
     
+    private string _validationErrorMessage;
     private Command _startTestingCommand;
-    
+
+    public string ValidationErrorMessage
+    {
+        get => _validationErrorMessage;
+
+        set
+        {
+            _validationErrorMessage = value;
+            OnPropertyChanged();
+        }
+    }
+
     public ICommand StartTestingCommand
     {
         get
@@ -20,8 +34,9 @@ public class MainPageViewModel : BaseViewModel
         }
     }
     
-    public MainPageViewModel(INavigationService navigationService)
+    public MainPageViewModel(AppSettings appSettings, INavigationService navigationService)
     {
+        _appSettings = appSettings;
         _navigationService = navigationService;
     }
 
