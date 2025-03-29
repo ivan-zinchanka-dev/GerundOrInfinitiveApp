@@ -3,6 +3,6 @@
 public interface INavigationService
 {
     public void Initialize(NavigationPage navigationPage);
-    public Task NavigateToAsync(Page page);
-    public Task GoBackAsync();
+    public Task<bool> NavigateToAsync<TPage>() where TPage : Page;
+    public Task<bool> GoBackAsync();
 }

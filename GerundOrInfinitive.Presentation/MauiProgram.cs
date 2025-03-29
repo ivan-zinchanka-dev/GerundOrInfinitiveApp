@@ -16,7 +16,7 @@ public static class MauiProgram
         
         Task deployTask = Task.Run(async () =>
         {
-            databasePath = await MauiAssetDeployer.DeployAssetIfNeed("gerund_or_infinitive.db");
+            databasePath = await MauiAssetDeployer.DeployAssetIfNeedAsync("gerund_or_infinitive.db");
         });
         
         var builder = MauiApp.CreateBuilder();

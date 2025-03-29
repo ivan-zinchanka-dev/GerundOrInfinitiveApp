@@ -2,7 +2,7 @@
 
 public static class MauiAssetDeployer
 {
-    public static async Task<string> DeployAssetIfNeed(string assetFileName)
+    public static async Task<string> DeployAssetIfNeedAsync(string assetFileName)
     {
         string deployedAssetPath = Path.Combine(FileSystem.AppDataDirectory, assetFileName);
 

@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using GerundOrInfinitive.Presentation.Services.Contracts;
+using Microsoft.Extensions.Logging;
 
 namespace GerundOrInfinitive.Presentation.Services.Implementations;
 
-// TODO Use INavigationService and ILogger
-public class NavigationService /*: INavigationService*/
+public class NavigationService : INavigationService
 {
     private readonly ILogger<NavigationService> _logger;
     private readonly IServiceProvider _serviceProvider;

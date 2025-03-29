@@ -84,7 +84,7 @@ public class TestingViewModel : BaseViewModel
     {
         if (!_isChecked)
         {
-            await CheckTasks();
+            await CheckTasksAsync();
             _isChecked = true;
         }
         else
@@ -93,7 +93,7 @@ public class TestingViewModel : BaseViewModel
         }
     }
 
-    private async Task CheckTasks()
+    private async Task CheckTasksAsync()
     {
         IEnumerable<CheckedTask> checkingResult = await _teacher.CheckAnsweredTasksAsync(_taskViewModels.Select(Map));
         
