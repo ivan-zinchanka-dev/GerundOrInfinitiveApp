@@ -6,9 +6,12 @@ namespace GerundOrInfinitive.Domain.Models.Settings;
 
 public class AppSettings : INotifyPropertyChanged
 {
-    private int _verbsCount;
-
-    [Range(1, int.MaxValue)]
+    private int _verbsCount = MinVerbsCount;
+    
+    public const int MinVerbsCount = 5;
+    public const int MaxVerbsCount = 20;
+    
+    [Range(MinVerbsCount, MaxVerbsCount)]
     public int VerbsCount
     {
         get => _verbsCount;

@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Windows.Input;
 using GerundOrInfinitive.Domain.Models.Settings;
 using GerundOrInfinitive.Presentation.Services.Contracts;
 using GerundOrInfinitive.Presentation.Services.Implementations;
@@ -9,23 +10,40 @@ namespace GerundOrInfinitive.Presentation.ViewModels;
 
 public class MainPageViewModel : BaseViewModel
 {
+    private const string VerbsCountTextPattern = "Verbs count: {0}"; 
+    
     private readonly AppSettings _appSettings;
     private readonly INavigationService _navigationService;
-    
-    private string _validationErrorMessage;
+
+    private int _verbsCount;
+    private string _verbsCountText;
+
     private Command _startTestingCommand;
 
-    public string ValidationErrorMessage
+    public int VerbsCount
     {
-        get => _validationErrorMessage;
+        get => _verbsCount;
 
         set
         {
-            _validationErrorMessage = value;
+            _verbsCount = value;
+            OnPropertyChanged();
+            VerbsCountText = string.Format(VerbsCountTextPattern, _verbsCount);
+        }
+
+    }
+    
+    public string VerbsCountText
+    {
+        get => _verbsCountText;
+
+        set
+        {
+            _verbsCountText = value;
             OnPropertyChanged();
         }
     }
-
+    
     public ICommand StartTestingCommand
     {
         get
@@ -38,11 +56,13 @@ public class MainPageViewModel : BaseViewModel
     {
         _appSettings = appSettings;
         _navigationService = navigationService;
+
+        VerbsCount = _appSettings.VerbsCount;
     }
 
     private async void StartTesting()
     {
         await _navigationService.NavigateToAsync<TestingPage>();
     }
-
+    
 }
