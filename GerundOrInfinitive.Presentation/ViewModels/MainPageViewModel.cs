@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using GerundOrInfinitive.Domain.Models.Settings;
 using GerundOrInfinitive.Presentation.Services.Contracts;
-using GerundOrInfinitive.Presentation.Services.Implementations;
 using GerundOrInfinitive.Presentation.ViewModels.Base;
 using GerundOrInfinitive.Presentation.Views;
 
@@ -10,36 +8,34 @@ namespace GerundOrInfinitive.Presentation.ViewModels;
 
 public class MainPageViewModel : BaseViewModel
 {
-    private const string VerbsCountTextPattern = "Verbs count: {0}"; 
+    private const string ExamplesCountTextPattern = "Count of examples: {0}"; 
     
     private readonly AppSettings _appSettings;
     private readonly INavigationService _navigationService;
-
-    private int _verbsCount;
-    private string _verbsCountText;
-
+    
+    private string _examplesCountText;
     private Command _startTestingCommand;
 
-    public int VerbsCount
+    public int ExamplesCount
     {
-        get => _verbsCount;
+        get => _appSettings.ExamplesCount;
 
         set
         {
-            _verbsCount = value;
+            _appSettings.ExamplesCount = value;
             OnPropertyChanged();
-            VerbsCountText = string.Format(VerbsCountTextPattern, _verbsCount);
+            ExamplesCountText = string.Format(ExamplesCountTextPattern, _appSettings.ExamplesCount);
         }
 
     }
     
-    public string VerbsCountText
+    public string ExamplesCountText
     {
-        get => _verbsCountText;
+        get => _examplesCountText;
 
         set
         {
-            _verbsCountText = value;
+            _examplesCountText = value;
             OnPropertyChanged();
         }
     }
@@ -56,8 +52,8 @@ public class MainPageViewModel : BaseViewModel
     {
         _appSettings = appSettings;
         _navigationService = navigationService;
-
-        VerbsCount = _appSettings.VerbsCount;
+        
+        ExamplesCountText = string.Format(ExamplesCountTextPattern, _appSettings.ExamplesCount);
     }
 
     private async void StartTesting()

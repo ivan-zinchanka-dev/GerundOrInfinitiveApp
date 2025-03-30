@@ -6,18 +6,18 @@ namespace GerundOrInfinitive.Domain.Models.Settings;
 
 public class AppSettings : INotifyPropertyChanged
 {
-    private int _verbsCount = MinVerbsCount;
+    private int _examplesCount = MinExamplesCount;
     
-    public const int MinVerbsCount = 5;
-    public const int MaxVerbsCount = 20;
+    public const int MinExamplesCount = 5;
+    public const int MaxExamplesCount = 20;
     
-    [Range(MinVerbsCount, MaxVerbsCount)]
-    public int VerbsCount
+    [Range(MinExamplesCount, MaxExamplesCount)]
+    public int ExamplesCount
     {
-        get => _verbsCount;
+        get => _examplesCount;
         set
         {
-            _verbsCount = value;
+            _examplesCount = value;
             OnPropertyChanged();
         }
     }

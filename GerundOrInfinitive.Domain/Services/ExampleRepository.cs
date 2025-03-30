@@ -15,8 +15,8 @@ public class ExampleRepository
         _database = new SQLiteAsyncConnection(_appSettings.DatabasePath);
     }
 
-    public Task<List<Example>> GetAllExamplesAsync()
+    public Task<List<Example>> GetExamplesAsync(int examplesCount)
     {
-        return _database.Table<Example>().Take(15).ToListAsync();
+        return _database.Table<Example>().Take(examplesCount).ToListAsync();
     }
 }

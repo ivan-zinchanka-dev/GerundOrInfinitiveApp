@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:behaviours="clr-namespace:GerundOrInfinitive.Presentation.Behaviours"
              x:Class="GerundOrInfinitive.Presentation.Views.MainPage"
              NavigationPage.HasNavigationBar="False">
 
@@ -11,22 +10,22 @@
                              Spacing="50">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.2*"/>
-                    <ColumnDefinition Width="0.3*"/>
                     <ColumnDefinition Width="0.1*"/>
+                    <ColumnDefinition Width="0.45*"/>
+                    <ColumnDefinition Width="0.05*"/>
                     <ColumnDefinition Width="0.2*"/>
                     <ColumnDefinition Width="0.2*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="1"
                        VerticalOptions="Center"
-                       Text="{Binding VerbsCountText}"/>
+                       Text="{Binding ExamplesCountText}"/>
                 <Stepper Grid.Column="3"
                          Minimum="5"
                          Maximum="20"
                          Increment="1"
                          HeightRequest="40"
                          VerticalOptions="Center"
-                         Value="{Binding VerbsCount}"/>
+                         Value="{Binding ExamplesCount}"/>
             </Grid>
             
             <Button WidthRequest="200"
