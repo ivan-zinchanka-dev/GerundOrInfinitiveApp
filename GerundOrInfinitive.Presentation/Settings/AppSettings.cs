@@ -9,11 +9,11 @@ internal class AppSettings : IAppSettings, INotifyPropertyChanged
 {
     private const string ExamplesCountKey = "examples_count";
     
-    private const int MinExamplesCount = 5;
+    private const int MinExamplesCountInternal = 5;
     private const int DefaultExamplesCount = 10;
-    private const int MaxExamplesCount = 20;
+    private const int MaxExamplesCountInternal = 20;
     
-    [Range(MinExamplesCount, MaxExamplesCount)]
+    [Range(MinExamplesCountInternal, MaxExamplesCountInternal)]
     public int ExamplesCount
     {
         get => Preferences.Get(ExamplesCountKey, DefaultExamplesCount);
@@ -23,6 +23,9 @@ internal class AppSettings : IAppSettings, INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
+    
+    public int MaxExamplesCount => MaxExamplesCountInternal;
+    public int MinExamplesCount => MinExamplesCountInternal;
     
     public string DatabasePath { get; }
 

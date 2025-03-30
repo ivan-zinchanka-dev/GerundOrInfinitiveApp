@@ -21,8 +21,8 @@
                        VerticalOptions="Center"
                        Text="{Binding ExamplesCountText}"/>
                 <Stepper Grid.Column="3"
-                         Minimum="5"
-                         Maximum="20"
+                         Minimum="{Binding MinExamplesCount}"
+                         Maximum="{Binding MaxExamplesCount}"
                          Increment="1"
                          HeightRequest="40"
                          VerticalOptions="Center"

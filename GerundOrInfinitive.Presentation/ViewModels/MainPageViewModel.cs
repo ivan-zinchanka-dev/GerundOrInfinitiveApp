@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using GerundOrInfinitive.Domain.Models.Settings;
 using GerundOrInfinitive.Presentation.Services.Contracts;
+using GerundOrInfinitive.Presentation.Settings;
 using GerundOrInfinitive.Presentation.ViewModels.Base;
 using GerundOrInfinitive.Presentation.Views;
 
@@ -16,6 +17,9 @@ internal class MainPageViewModel : BaseViewModel
     private string _examplesCountText;
     private Command _startTestingCommand;
 
+    public int MinExamplesCount => _appSettings.MinExamplesCount;
+    public int MaxExamplesCount => _appSettings.MaxExamplesCount;
+    
     public int ExamplesCount
     {
         get => _appSettings.ExamplesCount;
@@ -26,7 +30,6 @@ internal class MainPageViewModel : BaseViewModel
             OnPropertyChanged();
             ExamplesCountText = string.Format(ExamplesCountTextPattern, _appSettings.ExamplesCount);
         }
-
     }
     
     public string ExamplesCountText
