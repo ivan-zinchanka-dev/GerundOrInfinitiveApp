@@ -36,14 +36,14 @@ public class Teacher
     private CheckedTask CheckTask(AnsweredTask answeredTask)
     {
         Example foundExample = _examples.Find(example => example.Id == answeredTask.SourceTask.TaskId);
-
+        
         if (foundExample != null)
         {
             return new CheckedTask(
                 answeredTask.SourceTask, 
                 answeredTask.UserAnswer, 
                 foundExample.CorrectAnswer, 
-                null);
+                foundExample.AlternativeCorrectAnswer?.Answer);
         }
         else
         {

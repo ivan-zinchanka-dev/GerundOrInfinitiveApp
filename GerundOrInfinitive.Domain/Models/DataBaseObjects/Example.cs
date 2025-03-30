@@ -16,4 +16,7 @@ public class Example
     
     [Column("CorrectAnswer")]
     public string CorrectAnswer { get; set; }
+    
+    [Ignore]
+    public AlternativeCorrectAnswer AlternativeCorrectAnswer { get; set; }
 }

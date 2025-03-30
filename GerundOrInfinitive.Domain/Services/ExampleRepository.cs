@@ -23,8 +23,23 @@ public class ExampleRepository
             .ToListAsync();
     }*/
     
-    public Task<List<Example>> GetExamplesAsync(int examplesCount)
+    public async Task<List<Example>> GetExamplesAsync(int examplesCount)
     {
-        return _database.QueryAsync<Example>($"SELECT * FROM Examples ORDER BY RANDOM() LIMIT {examplesCount}");
+        List<Example> examples = 
+            await _database.QueryAsync<Example>($"SELECT * FROM Examples ORDER BY RANDOM() LIMIT {examplesCount}");
+
+        foreach (Example example in examples)
+        {
+            example.AlternativeCorrectAnswer = await GetAlternativeAnswerAsync(example.Id);
+        }
+
+        return examples;
+    }
+
+    private async Task<AlternativeCorrectAnswer> GetAlternativeAnswerAsync(int exampleId)
+    {
+        return await _database.Table<AlternativeCorrectAnswer>()
+            .Where(answer => answer.ExampleId == exampleId)
+            .FirstOrDefaultAsync();
     }
 }
