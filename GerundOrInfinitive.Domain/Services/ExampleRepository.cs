@@ -6,10 +6,10 @@ namespace GerundOrInfinitive.Domain.Services;
 
 public class ExampleRepository
 {
-    private readonly AppSettings _appSettings;
+    private readonly IAppSettings _appSettings;
     private readonly SQLiteAsyncConnection _database;
     
-    public ExampleRepository(AppSettings appSettings)
+    public ExampleRepository(IAppSettings appSettings)
     {
         _appSettings = appSettings;
         _database = new SQLiteAsyncConnection(_appSettings.DatabasePath);

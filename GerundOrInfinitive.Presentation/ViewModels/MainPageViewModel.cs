@@ -6,11 +6,11 @@ using GerundOrInfinitive.Presentation.Views;
 
 namespace GerundOrInfinitive.Presentation.ViewModels;
 
-public class MainPageViewModel : BaseViewModel
+internal class MainPageViewModel : BaseViewModel
 {
     private const string ExamplesCountTextPattern = "Count of examples: {0}"; 
     
-    private readonly AppSettings _appSettings;
+    private readonly IAppSettings _appSettings;
     private readonly INavigationService _navigationService;
     
     private string _examplesCountText;
@@ -48,7 +48,7 @@ public class MainPageViewModel : BaseViewModel
         }
     }
     
-    public MainPageViewModel(AppSettings appSettings, INavigationService navigationService)
+    public MainPageViewModel(IAppSettings appSettings, INavigationService navigationService)
     {
         _appSettings = appSettings;
         _navigationService = navigationService;

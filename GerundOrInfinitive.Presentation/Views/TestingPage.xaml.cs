@@ -2,7 +2,7 @@
 
 namespace GerundOrInfinitive.Presentation.Views;
 
-public partial class TestingPage : ContentPage
+internal partial class TestingPage : ContentPage
 {
     private readonly TestingViewModel _viewModel;
     

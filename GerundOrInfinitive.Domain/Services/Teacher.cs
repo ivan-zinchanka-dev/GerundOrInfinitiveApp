@@ -6,11 +6,11 @@ namespace GerundOrInfinitive.Domain.Services;
 
 public class Teacher
 {
-    private readonly AppSettings _appSettings;
+    private readonly IAppSettings _appSettings;
     private readonly ExampleRepository _exampleRepository;
     private List<Example> _examples;
 
-    public Teacher(AppSettings appSettings, ExampleRepository exampleRepository)
+    public Teacher(IAppSettings appSettings, ExampleRepository exampleRepository)
     {
         _exampleRepository = exampleRepository;
         _appSettings = appSettings;

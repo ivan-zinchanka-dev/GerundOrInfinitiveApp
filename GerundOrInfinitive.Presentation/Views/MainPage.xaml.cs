@@ -2,7 +2,7 @@
 
 namespace GerundOrInfinitive.Presentation.Views;
 
-public partial class MainPage : ContentPage
+internal partial class MainPage : ContentPage
 {
     private MainPageViewModel _viewModel;
     

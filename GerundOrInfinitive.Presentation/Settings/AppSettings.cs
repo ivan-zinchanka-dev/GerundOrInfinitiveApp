@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
+using GerundOrInfinitive.Domain.Models.Settings;
 
-namespace GerundOrInfinitive.Domain.Models.Settings;
+namespace GerundOrInfinitive.Presentation.Settings;
 
-public class AppSettings : INotifyPropertyChanged
+internal class AppSettings : IAppSettings, INotifyPropertyChanged
 {
     private int _examplesCount = MinExamplesCount;
     
@@ -17,7 +18,7 @@ public class AppSettings : INotifyPropertyChanged
         get => _examplesCount;
         set
         {
-            _examplesCount = value;
+            _examplesCount = value; 
             OnPropertyChanged();
         }
     }

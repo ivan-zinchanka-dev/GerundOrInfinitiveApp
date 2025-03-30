@@ -4,14 +4,13 @@ using GerundOrInfinitive.Domain.Models.Settings;
 using GerundOrInfinitive.Domain.Models.Teaching;
 using GerundOrInfinitive.Domain.Services;
 using GerundOrInfinitive.Presentation.Services.Contracts;
-using GerundOrInfinitive.Presentation.Services.Implementations;
 using GerundOrInfinitive.Presentation.ViewModels.Base;
 
 namespace GerundOrInfinitive.Presentation.ViewModels;
 
-public class TestingViewModel : BaseViewModel
+internal class TestingViewModel : BaseViewModel
 {
-    private readonly AppSettings _appSettings;
+    private readonly IAppSettings _appSettings;
     private readonly INavigationService _navigationService;
     private readonly Teacher _teacher;
     
@@ -53,7 +52,7 @@ public class TestingViewModel : BaseViewModel
         }
     }
     
-    public TestingViewModel(AppSettings appSettings, INavigationService navigationService, Teacher teacher)
+    public TestingViewModel(IAppSettings appSettings, INavigationService navigationService, Teacher teacher)
     {
         _appSettings = appSettings;
         _navigationService = navigationService;

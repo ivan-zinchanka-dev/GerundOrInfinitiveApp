@@ -3,6 +3,7 @@ using GerundOrInfinitive.Domain.Services;
 using GerundOrInfinitive.Presentation.Services;
 using GerundOrInfinitive.Presentation.Services.Contracts;
 using GerundOrInfinitive.Presentation.Services.Implementations;
+using GerundOrInfinitive.Presentation.Settings;
 using GerundOrInfinitive.Presentation.ViewModels;
 using GerundOrInfinitive.Presentation.Views;
 using Microsoft.Extensions.Logging;
@@ -32,7 +33,7 @@ public static class MauiProgram
         deployTask.GetAwaiter().GetResult();
         
         builder.Services
-            .AddSingleton<AppSettings>(new AppSettings(databasePath))
+            .AddSingleton<IAppSettings>(new AppSettings(databasePath))
             .AddSingleton<ExampleRepository>()
             .AddTransient<Teacher>()
             .AddSingleton<INavigationService, NavigationService>()
