@@ -36,6 +36,7 @@ public class ExampleRepository
         return examples;
     }
 
+    //TODO Load all at start for optimization
     private async Task<AlternativeCorrectAnswer> GetAlternativeAnswerAsync(int exampleId)
     {
         return await _database.Table<AlternativeCorrectAnswer>()

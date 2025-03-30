@@ -8,6 +8,7 @@ public class AlternativeCorrectAnswer
     [PrimaryKey, AutoIncrement, Column("Id")]
     public int Id { get; set; }
     
+    //TODO Shared primary Key  ?  Alter answer in result View
     [Column("ExampleId")]
     public int ExampleId { get; set; }
     

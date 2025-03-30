@@ -13,6 +13,14 @@ CREATE TABLE AlternativeCorrectAnswers (
     FOREIGN KEY (ExampleId) REFERENCES Examples(Id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE LatestExampleResponses (
+    ExampleId INTEGER PRIMARY KEY,
+    Time INTEGER NOT NULL,
+    Result INTEGER NOT NULL,
+
+    FOREIGN KEY (ExampleId) REFERENCES Examples(Id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 
 SELECT * FROM Examples
 

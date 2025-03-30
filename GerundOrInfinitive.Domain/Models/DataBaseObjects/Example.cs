@@ -2,6 +2,7 @@
 
 namespace GerundOrInfinitive.Domain.Models.DataBaseObjects;
 
+// TODO Nameofs
 [Table("Examples")]
 public class Example
 {
