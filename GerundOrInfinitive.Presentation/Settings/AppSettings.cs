@@ -7,18 +7,19 @@ namespace GerundOrInfinitive.Presentation.Settings;
 
 internal class AppSettings : IAppSettings, INotifyPropertyChanged
 {
-    private int _examplesCount = MinExamplesCount;
+    private const string ExamplesCountKey = "examples_count";
     
-    public const int MinExamplesCount = 5;
-    public const int MaxExamplesCount = 20;
+    private const int MinExamplesCount = 5;
+    private const int DefaultExamplesCount = 10;
+    private const int MaxExamplesCount = 20;
     
     [Range(MinExamplesCount, MaxExamplesCount)]
     public int ExamplesCount
     {
-        get => _examplesCount;
+        get => Preferences.Get(ExamplesCountKey, DefaultExamplesCount);
         set
         {
-            _examplesCount = value; 
+            Preferences.Set(ExamplesCountKey, value);
             OnPropertyChanged();
         }
     }
@@ -32,7 +33,7 @@ internal class AppSettings : IAppSettings, INotifyPropertyChanged
 
     public event PropertyChangedEventHandler PropertyChanged;
 
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
