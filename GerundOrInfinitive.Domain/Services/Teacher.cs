@@ -25,8 +25,11 @@ public class Teacher
 
     public async Task<IEnumerable<CheckedTask>> CheckAnsweredTasksAsync(IEnumerable<AnsweredTask> answeredTasks)
     {
-        _examples ??= await _exampleRepository.GetExamplesAsync(_appSettings.ExamplesCount);
-        
+        if (_examples == null)
+        {
+            return new[] { CheckedTask.Invalid };       // TODO ???
+        }
+
         return answeredTasks.Select(CheckTask);
     }
 

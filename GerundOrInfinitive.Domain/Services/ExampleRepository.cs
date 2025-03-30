@@ -15,8 +15,16 @@ public class ExampleRepository
         _database = new SQLiteAsyncConnection(_appSettings.DatabasePath);
     }
 
+    /*public Task<List<Example>> GetExamplesAsync(int examplesCount)
+    {
+        return _database.Table<Example>()
+            //.OrderBy(example => Guid.NewGuid()) 
+            .Take(examplesCount)
+            .ToListAsync();
+    }*/
+    
     public Task<List<Example>> GetExamplesAsync(int examplesCount)
     {
-        return _database.Table<Example>().Take(examplesCount).ToListAsync();
+        return _database.QueryAsync<Example>($"SELECT * FROM Examples ORDER BY RANDOM() LIMIT {examplesCount}");
     }
 }
