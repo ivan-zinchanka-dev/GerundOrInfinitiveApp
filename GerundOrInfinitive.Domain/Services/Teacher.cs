@@ -39,11 +39,20 @@ public class Teacher
         
         if (foundExample != null)
         {
-            return new CheckedTask(
+            var checkedTask = new CheckedTask(
                 answeredTask.SourceTask, 
                 answeredTask.UserAnswer, 
                 foundExample.CorrectAnswer, 
                 foundExample.AlternativeCorrectAnswer?.Answer);
+
+            _exampleRepository.AddResponseAsync(new LatestExampleResponse()
+            {
+                ExampleId = foundExample.Id,
+                Result = checkedTask.Result,
+                Time = DateTime.UtcNow,
+            });
+
+            return checkedTask;
         }
         else
         {

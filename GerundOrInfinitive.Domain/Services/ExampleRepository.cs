@@ -15,17 +15,41 @@ public class ExampleRepository
         _database = new SQLiteAsyncConnection(_appSettings.DatabasePath);
     }
 
-    /*public Task<List<Example>> GetExamplesAsync(int examplesCount)
+    public Task<List<Example>> GetExamplesAsync(int examplesCount)
     {
         return _database.Table<Example>()
-            //.OrderBy(example => Guid.NewGuid()) 
+            .OrderBy(example => Guid.NewGuid()) 
             .Take(examplesCount)
             .ToListAsync();
-    }*/
-    
-    public async Task<List<Example>> GetExamplesAsync(int examplesCount)
+    }
+
+    public async Task<bool> AddResponseAsync(LatestExampleResponse newResponse)
     {
-        List<Example> examples = 
+        LatestExampleResponse oldResponse = await _database
+            .Table<LatestExampleResponse>()
+            .Where(oldResponse => oldResponse.ExampleId == newResponse.ExampleId)
+            .FirstOrDefaultAsync();
+
+        int rowsCount;
+        
+        if (oldResponse == null)
+        {
+            rowsCount = await _database.InsertAsync(newResponse);
+        }
+        else
+        {
+            rowsCount = await _database.UpdateAsync(newResponse);
+        }
+        
+        return rowsCount > 0;
+    }
+    
+
+    /*public async Task<List<Example>> GetExamplesAsync(int examplesCount)
+    {
+
+
+        List<Example> examples =
             await _database.QueryAsync<Example>($"SELECT * FROM Examples ORDER BY RANDOM() LIMIT {examplesCount}");
 
         foreach (Example example in examples)
@@ -34,7 +58,7 @@ public class ExampleRepository
         }
 
         return examples;
-    }
+    }*/
 
     //TODO Load all at start for optimization
     private async Task<AlternativeCorrectAnswer> GetAlternativeAnswerAsync(int exampleId)

@@ -11,7 +11,6 @@ public class LatestExampleResponse
     [Column(nameof(Result))]
     public bool Result { get; set; }
     
-    // TODO Reflect Unix in Table
     [Column(nameof(Time))]
     public long TimeUnixMilliseconds { get; set; }
 
@@ -21,6 +20,11 @@ public class LatestExampleResponse
         get => DateTimeOffset.FromUnixTimeMilliseconds(TimeUnixMilliseconds).UtcDateTime;
         set => TimeUnixMilliseconds = new DateTimeOffset(value).ToUnixTimeMilliseconds();
     }
-    
+
+    public void SetCurrentTime()
+    {
+        Time = DateTime.UtcNow;
+    }
+
     // TODO Сначало неверные, затем верные, которых давно не было
 }
