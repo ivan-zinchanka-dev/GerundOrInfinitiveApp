@@ -2,16 +2,15 @@
 
 namespace GerundOrInfinitive.Domain.Models.DataBaseObjects;
 
-[Table("AlternativeCorrectAnswers")]
+[Table($"{nameof(AlternativeCorrectAnswer)}s")]
 public class AlternativeCorrectAnswer
 {
-    [PrimaryKey, AutoIncrement, Column("Id")]
+    [PrimaryKey, AutoIncrement, Column(nameof(Id))]
     public int Id { get; set; }
     
-    //TODO Shared primary Key  ?  Alter answer in result View
-    [Column("ExampleId")]
+    [Column(nameof(ExampleId))]
     public int ExampleId { get; set; }
     
-    [Column("Answer")]
+    [Column(nameof(Answer))]
     public string Answer { get; set; }
 }

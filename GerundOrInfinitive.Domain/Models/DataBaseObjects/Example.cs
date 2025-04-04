@@ -2,20 +2,19 @@
 
 namespace GerundOrInfinitive.Domain.Models.DataBaseObjects;
 
-// TODO Nameofs
-[Table("Examples")]
+[Table($"{nameof(Example)}s")]
 public class Example
 {
-    [PrimaryKey, AutoIncrement, Column("Id")]
+    [PrimaryKey, AutoIncrement, Column(nameof(Id))]
     public int Id { get; set; }
     
-    [Column("SourceSentence")]
+    [Column(nameof(SourceSentence))]
     public string SourceSentence { get; set; }
     
-    [Column("UsedWord")]
+    [Column(nameof(UsedWord))]
     public string UsedWord { get; set; }
     
-    [Column("CorrectAnswer")]
+    [Column(nameof(CorrectAnswer))]
     public string CorrectAnswer { get; set; }
     
     [Ignore]

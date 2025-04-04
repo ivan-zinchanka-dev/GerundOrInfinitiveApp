@@ -21,4 +21,6 @@ public class LatestExampleResponse
         get => DateTimeOffset.FromUnixTimeMilliseconds(TimeUnixMilliseconds).UtcDateTime;
         set => TimeUnixMilliseconds = new DateTimeOffset(value).ToUnixTimeMilliseconds();
     }
+    
+    // TODO Сначало неверные, затем верные, которых давно не было
 }
