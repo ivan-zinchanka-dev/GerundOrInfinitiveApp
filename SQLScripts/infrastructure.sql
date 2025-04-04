@@ -21,6 +21,18 @@ CREATE TABLE LatestExampleResponses (
     FOREIGN KEY (ExampleId) REFERENCES Examples(Id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE VIEW OrderedExamples AS
+SELECT *
+FROM Examples ex
+LEFT JOIN LatestExampleResponses resp ON ex.Id = resp.ExampleId
+ORDER BY
+    CASE WHEN resp.Result = 0 THEN 0 ELSE 1 END,
+    resp.Time;
+
+SELECT *
+FROM OrderedExamples
+LIMIT 10;
+
 
 SELECT * FROM Examples
 

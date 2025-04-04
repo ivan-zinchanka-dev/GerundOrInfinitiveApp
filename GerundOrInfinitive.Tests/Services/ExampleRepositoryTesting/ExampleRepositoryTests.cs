@@ -20,7 +20,18 @@ public class ExampleRepositoryTests
     {
         Console.WriteLine(Directory.GetCurrentDirectory());
     }
+    
+    [Test]
+    public async Task GetExamplesAsync()
+    {
+        var l = await _exampleRepository.GetExamplesAsync(10);
 
+        foreach (var ex in l)
+        {
+            Console.WriteLine(ex.Id);
+        }
+    }
+    
     [Test]
     public async Task AddResponse()
     {
@@ -33,13 +44,25 @@ public class ExampleRepositoryTests
         
         success &= await _exampleRepository.AddResponseAsync(new LatestExampleResponse()
         {
+            ExampleId = 40,
+            Result = false,
+            Time = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)),
+        });
+        
+        success &= await _exampleRepository.AddResponseAsync(new LatestExampleResponse()
+        {
+            ExampleId = 30,
+            Result = true,
+            Time = DateTime.UtcNow.Subtract(TimeSpan.FromDays(3)),
+        });
+        
+        success &= await _exampleRepository.AddResponseAsync(new LatestExampleResponse()
+        {
             ExampleId = 15,
             Result = true,
-            Time = DateTime.UtcNow.Add(TimeSpan.FromDays(1)),
+            Time = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)),
         });
         
         Assert.IsTrue(success);
     }
-
-
 }

@@ -6,6 +6,8 @@ namespace GerundOrInfinitive.Domain.Services;
 
 public class ExampleRepository
 {
+    private const string GetExamplesQuery = "SELECT * FROM OrderedExamples LIMIT {0};";
+    
     private readonly IAppSettings _appSettings;
     private readonly SQLiteAsyncConnection _database;
     
@@ -14,13 +16,11 @@ public class ExampleRepository
         _appSettings = appSettings;
         _database = new SQLiteAsyncConnection(_appSettings.DatabasePath);
     }
-
-    public Task<List<Example>> GetExamplesAsync(int examplesCount)
+    
+    public async Task<List<Example>> GetExamplesAsync(int examplesCount)
     {
-        return _database.Table<Example>()
-            .OrderBy(example => Guid.NewGuid()) 
-            .Take(examplesCount)
-            .ToListAsync();
+        return await _database.QueryAsync<Example>(
+            string.Format(GetExamplesQuery, examplesCount));
     }
 
     public async Task<bool> AddResponseAsync(LatestExampleResponse newResponse)
