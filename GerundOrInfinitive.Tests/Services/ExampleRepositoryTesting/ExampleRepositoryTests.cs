@@ -24,7 +24,7 @@ public class ExampleRepositoryTests
     [Test]
     public async Task GetExamplesAsync()
     {
-        var l = await _exampleRepository.GetExamplesAsync(10);
+        var l = await _exampleRepository.GetExamplesBatchAsync(10);
 
         foreach (var ex in l)
         {

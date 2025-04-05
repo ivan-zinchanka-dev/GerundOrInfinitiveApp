@@ -3,7 +3,7 @@
 namespace GerundOrInfinitive.Domain.Models.DataBaseObjects;
 
 [Table($"{nameof(Example)}s")]
-public class Example
+internal class Example
 {
     [PrimaryKey, AutoIncrement, Column(nameof(Id))]
     public int Id { get; set; }

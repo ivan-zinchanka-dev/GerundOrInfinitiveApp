@@ -1,6 +1,6 @@
 ﻿using GerundOrInfinitive.Domain.Models.DataBaseObjects;
+using GerundOrInfinitive.Domain.Models.ExampleTask;
 using GerundOrInfinitive.Domain.Models.Settings;
-using GerundOrInfinitive.Domain.Models.Teaching;
 
 namespace GerundOrInfinitive.Domain.Services;
 
@@ -10,53 +10,34 @@ public class Teacher
     private readonly ExampleRepository _exampleRepository;
     private List<Example> _examples;
 
+    public IReadOnlyList<ExampleTask> CurrentTasks { get; private set; }
+
     public Teacher(IAppSettings appSettings, ExampleRepository exampleRepository)
     {
         _exampleRepository = exampleRepository;
         _appSettings = appSettings;
     }
     
-    public async Task<IEnumerable<SourceTask>> GenerateTasksAsync()
+    public async Task<IReadOnlyList<ExampleTask>> NewTasksAsync()
     {
-        _examples ??= await _exampleRepository.GetExamplesAsync(_appSettings.ExamplesCount);
-
-        return _examples.Select(example => new SourceTask(example.Id, example.SourceSentence, example.UsedWord));
+        IReadOnlyList<Example> examplesBatch = await _exampleRepository.GetExamplesBatchAsync(_appSettings.ExamplesCount);
+        CurrentTasks = examplesBatch.Select(example => new ExampleTask(example)).ToList();
+        return CurrentTasks;
     }
 
-    public async Task<IEnumerable<CheckedTask>> CheckAnsweredTasksAsync(IEnumerable<AnsweredTask> answeredTasks)
+    public async Task CheckTasksAsync()
     {
-        if (_examples == null)
+        // TODO WhenAll() ?
+        foreach (ExampleTask task in CurrentTasks)
         {
-            return new[] { CheckedTask.Invalid };       // TODO ???
-        }
+            bool result = task.Check();
 
-        return answeredTasks.Select(CheckTask);
-    }
-
-    private CheckedTask CheckTask(AnsweredTask answeredTask)
-    {
-        Example foundExample = _examples.Find(example => example.Id == answeredTask.SourceTask.TaskId);
-        
-        if (foundExample != null)
-        {
-            var checkedTask = new CheckedTask(
-                answeredTask.SourceTask, 
-                answeredTask.UserAnswer, 
-                foundExample.CorrectAnswer, 
-                foundExample.AlternativeCorrectAnswer?.Answer);
-
-            _exampleRepository.AddResponseAsync(new LatestExampleResponse()
+            await _exampleRepository.AddResponseAsync(new LatestExampleResponse()
             {
-                ExampleId = foundExample.Id,
-                Result = checkedTask.Result,
-                Time = DateTime.UtcNow,
+                ExampleId = task.ExampleId,
+                Result = result,
+                Time = DateTime.UtcNow
             });
-
-            return checkedTask;
-        }
-        else
-        {
-            return CheckedTask.Invalid;
         }
     }
 }

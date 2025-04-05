@@ -1,4 +1,4 @@
-﻿namespace GerundOrInfinitive.Presentation.ViewModels;
+﻿namespace GerundOrInfinitive.Domain.Models.ExampleTask;
 
 public enum CheckingStatus
 {

@@ -1,9 +1,9 @@
-﻿using GerundOrInfinitive.Domain.Models.Teaching;
+﻿using GerundOrInfinitive.Domain.Models.ExampleTask;
 using GerundOrInfinitive.Presentation.ViewModels.Base;
 
 namespace GerundOrInfinitive.Presentation.ViewModels;
 
-public class TaskViewModel : BaseViewModel
+public class ExampleTaskViewModel : BaseViewModel
 {
     private const string CorrectAnswerPattern = "Correct answer: {0}";
     private const string SourceVerbPattern = "{0}) Source verb: <b>{1}</b>";
@@ -13,9 +13,8 @@ public class TaskViewModel : BaseViewModel
     private CheckingStatus _checkingStatus;
     private bool _isChecked;
     
-    private readonly SourceTask _sourceTask;
-    private CheckedTask _checkedTask;
-
+    private readonly ExampleTask _exampleTask;
+    
     public string SourceVerbText { get; }
     public string BeforeBlankText { get; }
     public string AfterBlankText { get; }
@@ -64,31 +63,30 @@ public class TaskViewModel : BaseViewModel
         }
     }
 
-    public TaskViewModel(SourceTask sourceTask, int taskNumber)
+    public ExampleTaskViewModel(ExampleTask exampleTask, int taskNumber)
     {
-        _sourceTask = sourceTask;
-
-        string[] substrings = _sourceTask.SourceSentence.Split("...");
-        BeforeBlankText = substrings[0];
+        _exampleTask = exampleTask;
+        (string beforeBlankText, string afterBlankText) = _exampleTask.GetSourceSentenceParts();
+        
+        BeforeBlankText = beforeBlankText;
         InputBlankText = string.Empty;
-        AfterBlankText = substrings[1];
+        AfterBlankText = afterBlankText;
         CorrectAnswer = string.Empty;
         Status = CheckingStatus.Unchecked;
         IsChecked = false;
         
-        SourceVerbText = string.Format(SourceVerbPattern, taskNumber, _sourceTask.UsedWord);
+        SourceVerbText = string.Format(SourceVerbPattern, taskNumber, _exampleTask.UsedWord);
     }
 
-    public AnsweredTask GetAnsweredTask()
+    public void SubmitAnswer()
     {
-        return new AnsweredTask(_sourceTask, InputBlankText);
+        _exampleTask.Answer(InputBlankText);
     }
 
-    public void SetCheckedTask(CheckedTask checkedTask)
+    public void OnTaskChecked()
     {
-        _checkedTask = checkedTask;
-        CorrectAnswer = string.Format(CorrectAnswerPattern, _checkedTask.CorrectAnswer);
-        Status = _checkedTask.Result ? CheckingStatus.Correct : CheckingStatus.Incorrect;
+        CorrectAnswer = string.Format(CorrectAnswerPattern, _exampleTask.CorrectAnswer);
+        Status = _exampleTask.CheckingStatus;
         IsChecked = true;
     }
 }

@@ -3,7 +3,7 @@
 namespace GerundOrInfinitive.Domain.Models.DataBaseObjects;
 
 [Table($"{nameof(LatestExampleResponse)}s")]
-public class LatestExampleResponse
+internal class LatestExampleResponse
 {
     [PrimaryKey, Column(nameof(ExampleId))]
     public int ExampleId { get; set; }
@@ -25,6 +25,4 @@ public class LatestExampleResponse
     {
         Time = DateTime.UtcNow;
     }
-
-    // TODO Сначало неверные, затем верные, которых давно не было
 }

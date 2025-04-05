@@ -6,6 +6,7 @@ namespace GerundOrInfinitive.Domain.Services;
 
 public class ExampleRepository
 {
+    // TODO Disorder first in SQL ->
     private const string GetExamplesQuery = "SELECT * FROM OrderedExamples LIMIT {0};";
     
     private readonly IAppSettings _appSettings;
@@ -19,7 +20,7 @@ public class ExampleRepository
         _database = new SQLiteAsyncConnection(_appSettings.DatabasePath);
     }
     
-    public async Task<List<Example>> GetExamplesAsync(int examplesCount)
+    internal async Task<IReadOnlyList<Example>> GetExamplesBatchAsync(int examplesCount)
     {
         _alternativeCorrectAnswers ??= await GetAlternativeAnswersAsync();
 
@@ -30,7 +31,7 @@ public class ExampleRepository
         return examples;
     }
 
-    public async Task<bool> AddResponseAsync(LatestExampleResponse newResponse)
+    internal async Task<bool> AddResponseAsync(LatestExampleResponse newResponse)
     {
         LatestExampleResponse oldResponse = await _database
             .Table<LatestExampleResponse>()

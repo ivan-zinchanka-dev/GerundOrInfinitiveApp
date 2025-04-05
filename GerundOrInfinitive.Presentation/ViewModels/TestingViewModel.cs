@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using GerundOrInfinitive.Domain.Models.ExampleTask;
 using GerundOrInfinitive.Domain.Models.Settings;
-using GerundOrInfinitive.Domain.Models.Teaching;
 using GerundOrInfinitive.Domain.Services;
 using GerundOrInfinitive.Presentation.Services.Contracts;
 using GerundOrInfinitive.Presentation.ViewModels.Base;
@@ -17,7 +17,7 @@ internal class TestingViewModel : BaseViewModel
     private bool _isChecked = false;
     
     private string _messageText;
-    private ObservableCollection<TaskViewModel> _taskViewModels = new ObservableCollection<TaskViewModel>();
+    private ObservableCollection<ExampleTaskViewModel> _taskViewModels = new ObservableCollection<ExampleTaskViewModel>();
     private Command _submitCommand;
 
     
@@ -33,7 +33,7 @@ internal class TestingViewModel : BaseViewModel
         }
     }
 
-    public ObservableCollection<TaskViewModel> TaskViewModels
+    public ObservableCollection<ExampleTaskViewModel> TaskViewModels
     {
         get => _taskViewModels;
 
@@ -58,31 +58,32 @@ internal class TestingViewModel : BaseViewModel
         _navigationService = navigationService;
         _teacher = teacher;
         
-        _teacher.GenerateTasksAsync().ContinueWith(task =>
+        _teacher.NewTasksAsync().ContinueWith(task =>
         {
-            List<SourceTask> sourceTasks = task.Result.ToList();
-            TaskViewModels = new ObservableCollection<TaskViewModel>(sourceTasks.Select(sourceTask=> 
-                Map(sourceTask, sourceTasks.IndexOf(sourceTask))));
+            List<ExampleTask> sourceTasks = task.Result.ToList();
+            var taskViewModels = new List<ExampleTaskViewModel>(sourceTasks.Capacity);
+            
+            for (int i = 0; i < sourceTasks.Count; i++)
+            {
+                taskViewModels.Add(Map(sourceTasks[i], i));
+            }
+            
+            TaskViewModels = new ObservableCollection<ExampleTaskViewModel>(taskViewModels);
             
         }, TaskScheduler.FromCurrentSynchronizationContext());
 
         MessageText = Application.Current.Resources["Tutorial"] as string;
     }
 
-    private TaskViewModel Map(SourceTask sourceTask, int taskIndex)
+    private ExampleTaskViewModel Map(ExampleTask exampleTask, int taskIndex)
     {
-        return new TaskViewModel(sourceTask, ++taskIndex);
-    }
-    
-    private AnsweredTask Map(TaskViewModel taskViewModel)
-    {
-        return taskViewModel.GetAnsweredTask();
+        return new ExampleTaskViewModel(exampleTask, ++taskIndex);
     }
     
     private async void Submit()
     {
         if (!_isChecked)
-        {
+        { 
             await CheckTasksAsync();
             _isChecked = true;
         }
@@ -94,28 +95,28 @@ internal class TestingViewModel : BaseViewModel
 
     private async Task CheckTasksAsync()
     {
-        IEnumerable<CheckedTask> checkingResult = await _teacher.CheckAnsweredTasksAsync(_taskViewModels.Select(Map));
-        
-        List<TaskViewModel> taskViewModels = _taskViewModels.ToList();
-        List<CheckedTask> checkedTasks = checkingResult.ToList();
-        
-        int tasksCount = Math.Min(taskViewModels.Count, checkedTasks.Count);
-
-        for (int i = 0; i < tasksCount; i++)
+        foreach (ExampleTaskViewModel viewModel in _taskViewModels)
         {
-            taskViewModels[i].SetCheckedTask(checkedTasks[i]);
+            viewModel.SubmitAnswer();
         }
-
-        MessageText = GetCheckingResultText(checkedTasks);
+        
+        await _teacher.CheckTasksAsync();
+        
+        foreach (ExampleTaskViewModel viewModel in _taskViewModels)
+        {
+            viewModel.OnTaskChecked();
+        }
+        
+        MessageText = GetCheckingResultText();
     }
 
-    private string GetCheckingResultText(List<CheckedTask> checkedTasks)
+    private string GetCheckingResultText()
     {
         string resultPattern = Application.Current.Resources["CheckingResult"] as string;
 
-        int correctTasksCount = checkedTasks.Count(task => task.Result);
+        int correctTasksCount = _taskViewModels.Count(viewModel => viewModel.Status == CheckingStatus.Correct);
 
-        return string.Format(resultPattern, correctTasksCount, checkedTasks.Count);
+        return string.Format(resultPattern, correctTasksCount, _taskViewModels.Count);
     }
 
 }

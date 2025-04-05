@@ -3,7 +3,7 @@
 namespace GerundOrInfinitive.Domain.Models.DataBaseObjects;
 
 [Table($"{nameof(AlternativeCorrectAnswer)}s")]
-public class AlternativeCorrectAnswer
+internal class AlternativeCorrectAnswer
 {
     [PrimaryKey, AutoIncrement, Column(nameof(Id))]
     public int Id { get; set; }
