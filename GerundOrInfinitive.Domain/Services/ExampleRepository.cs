@@ -11,6 +11,8 @@ public class ExampleRepository
     private readonly IAppSettings _appSettings;
     private readonly SQLiteAsyncConnection _database;
     
+    private List<AlternativeCorrectAnswer> _alternativeCorrectAnswers;
+    
     public ExampleRepository(IAppSettings appSettings)
     {
         _appSettings = appSettings;
@@ -19,8 +21,13 @@ public class ExampleRepository
     
     public async Task<List<Example>> GetExamplesAsync(int examplesCount)
     {
-        return await _database.QueryAsync<Example>(
-            string.Format(GetExamplesQuery, examplesCount));
+        _alternativeCorrectAnswers ??= await GetAlternativeAnswersAsync();
+
+        string query = string.Format(GetExamplesQuery, examplesCount);
+        
+        List<Example> examples = await _database.QueryAsync<Example>(query);
+        examples.ForEach(IncludeAlternativeAnswerIfNeed);
+        return examples;
     }
 
     public async Task<bool> AddResponseAsync(LatestExampleResponse newResponse)
@@ -44,27 +51,19 @@ public class ExampleRepository
         return rowsCount > 0;
     }
     
+    private void IncludeAlternativeAnswerIfNeed(Example example)
+    { 
+        AlternativeCorrectAnswer answer = _alternativeCorrectAnswers
+            .Find(answer => answer.ExampleId == example.Id);
 
-    /*public async Task<List<Example>> GetExamplesAsync(int examplesCount)
-    {
-
-
-        List<Example> examples =
-            await _database.QueryAsync<Example>($"SELECT * FROM Examples ORDER BY RANDOM() LIMIT {examplesCount}");
-
-        foreach (Example example in examples)
+        if (answer != null)
         {
-            example.AlternativeCorrectAnswer = await GetAlternativeAnswerAsync(example.Id);
+            example.AlternativeCorrectAnswer = answer;
         }
-
-        return examples;
-    }*/
-
-    //TODO Load all at start for optimization
-    private async Task<AlternativeCorrectAnswer> GetAlternativeAnswerAsync(int exampleId)
+    }
+    
+    private async Task<List<AlternativeCorrectAnswer>> GetAlternativeAnswersAsync()
     {
-        return await _database.Table<AlternativeCorrectAnswer>()
-            .Where(answer => answer.ExampleId == exampleId)
-            .FirstOrDefaultAsync();
+        return await _database.Table<AlternativeCorrectAnswer>().ToListAsync();
     }
 }
