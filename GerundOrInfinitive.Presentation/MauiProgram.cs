@@ -34,6 +34,7 @@ public static class MauiProgram
         
         builder.Services
             .AddSingleton<IAppSettings>(new AppSettings(databasePath))
+            .AddSingleton<AppResources>()
             .AddSingleton<ExampleRepository>()
             .AddTransient<Teacher>()
             .AddSingleton<INavigationService, NavigationService>()

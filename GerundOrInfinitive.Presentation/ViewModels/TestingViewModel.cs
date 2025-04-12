@@ -4,6 +4,7 @@ using GerundOrInfinitive.Domain.Models.ExampleTask;
 using GerundOrInfinitive.Domain.Models.Settings;
 using GerundOrInfinitive.Domain.Services;
 using GerundOrInfinitive.Presentation.Services.Contracts;
+using GerundOrInfinitive.Presentation.Services.Implementations;
 using GerundOrInfinitive.Presentation.ViewModels.Base;
 
 namespace GerundOrInfinitive.Presentation.ViewModels;
@@ -11,17 +12,16 @@ namespace GerundOrInfinitive.Presentation.ViewModels;
 internal class TestingViewModel : BaseViewModel
 {
     private readonly IAppSettings _appSettings;
+    private readonly AppResources _appResources;
     private readonly INavigationService _navigationService;
     private readonly Teacher _teacher;
-    
+
     private bool _isChecked = false;
     
     private string _messageText;
     private ObservableCollection<ExampleTaskViewModel> _taskViewModels = new ObservableCollection<ExampleTaskViewModel>();
     private Command _submitCommand;
-
     
-
     public string MessageText
     {
         get => _messageText;
@@ -52,9 +52,14 @@ internal class TestingViewModel : BaseViewModel
         }
     }
     
-    public TestingViewModel(IAppSettings appSettings, INavigationService navigationService, Teacher teacher)
+    public TestingViewModel(
+        IAppSettings appSettings, 
+        AppResources appResources, 
+        INavigationService navigationService, 
+        Teacher teacher)
     {
         _appSettings = appSettings;
+        _appResources = appResources;
         _navigationService = navigationService;
         _teacher = teacher;
         
@@ -72,9 +77,9 @@ internal class TestingViewModel : BaseViewModel
             
         }, TaskScheduler.FromCurrentSynchronizationContext());
 
-        MessageText = Application.Current.Resources["Tutorial"] as string;
+        MessageText = _appResources.TutorialString;
     }
-
+    
     private ExampleTaskViewModel Map(ExampleTask exampleTask, int taskIndex)
     {
         return new ExampleTaskViewModel(exampleTask, ++taskIndex);
@@ -112,11 +117,7 @@ internal class TestingViewModel : BaseViewModel
 
     private string GetCheckingResultText()
     {
-        string resultPattern = Application.Current.Resources["CheckingResult"] as string;
-
         int correctTasksCount = _taskViewModels.Count(viewModel => viewModel.Status == CheckingStatus.Correct);
-
-        return string.Format(resultPattern, correctTasksCount, _taskViewModels.Count);
+        return string.Format(_appResources.CheckingResultString, correctTasksCount, _taskViewModels.Count);
     }
-
 }
