@@ -5,17 +5,27 @@ namespace GerundOrInfinitive.Presentation.ViewModels;
 
 public class ExampleTaskViewModel : BaseViewModel
 {
+    private const string SourceVerbPattern = "{0}) Source verb: <b>{1}</b>. ";
     private const string CorrectAnswerPattern = "Correct answer: {0}";
-    private const string SourceVerbPattern = "{0}) Source verb: <b>{1}</b>";
     
+    private string _headerText;
     private string _inputBlackText;
-    private string _correctAnswer;
     private CheckingStatus _checkingStatus;
     private bool _isChecked;
     
     private readonly ExampleTask _exampleTask;
     
-    public string SourceVerbText { get; }
+    public string HeaderText
+    {
+        get => _headerText;
+
+        set
+        {
+            _headerText = value;
+            OnPropertyChanged();
+        }
+    }
+    
     public string BeforeBlankText { get; }
     public string AfterBlankText { get; }
 
@@ -26,17 +36,6 @@ public class ExampleTaskViewModel : BaseViewModel
         set
         {
             _inputBlackText = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string CorrectAnswer
-    {
-        get => _correctAnswer;
-
-        set
-        {
-            _correctAnswer = value;
             OnPropertyChanged();
         }
     }
@@ -71,11 +70,10 @@ public class ExampleTaskViewModel : BaseViewModel
         BeforeBlankText = beforeBlankText;
         InputBlankText = string.Empty;
         AfterBlankText = afterBlankText;
-        CorrectAnswer = string.Empty;
         Status = CheckingStatus.Unchecked;
         IsChecked = false;
         
-        SourceVerbText = string.Format(SourceVerbPattern, taskNumber, _exampleTask.UsedWord);
+        HeaderText = string.Format(SourceVerbPattern, taskNumber, _exampleTask.UsedWord);
     }
 
     public void SubmitAnswer()
@@ -85,7 +83,7 @@ public class ExampleTaskViewModel : BaseViewModel
 
     public void OnTaskChecked()
     {
-        CorrectAnswer = string.Format(CorrectAnswerPattern, _exampleTask.CorrectAnswer);
+        HeaderText += string.Format(CorrectAnswerPattern, _exampleTask.CorrectAnswer);
         Status = _exampleTask.CheckingStatus;
         IsChecked = true;
     }

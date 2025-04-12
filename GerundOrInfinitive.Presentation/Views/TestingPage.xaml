@@ -33,7 +33,7 @@
                         <StackLayout Orientation="Vertical"
                                      BackgroundColor="{Binding Status, 
                                      Converter={StaticResource CheckingStatusToBackgroundConverter}}">
-                            <Label Text="{Binding SourceVerbText}"
+                            <Label Text="{Binding HeaderText}"
                                    TextType="Html"
                                    />
                             <FlexLayout Direction="Row" Wrap="Wrap">
@@ -50,10 +50,6 @@
                                        VerticalOptions="Center"
                                 />
                             </FlexLayout>
-                            <StackLayout Orientation="Horizontal"
-                                         IsVisible="{Binding IsChecked}">
-                                <Label Text="{Binding CorrectAnswer}"/>
-                            </StackLayout>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
