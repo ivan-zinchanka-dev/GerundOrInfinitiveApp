@@ -27,17 +27,23 @@ public class Teacher
 
     public async Task CheckTasksAsync()
     {
-        // TODO WhenAll() ?
-        foreach (ExampleTask task in CurrentTasks)
-        {
-            bool result = task.Check();
+        Task[] responseTasks = new Task[CurrentTasks.Count];
 
-            await _exampleRepository.AddResponseAsync(new LatestExampleResponse()
+        for (int i = 0; i < CurrentTasks.Count; i++)
+        {
+            ExampleTask exampleTask = CurrentTasks[i];
+            bool result = exampleTask.Check();
+
+            Task responseTask = _exampleRepository.AddResponseAsync(new LatestExampleResponse()
             {
-                ExampleId = task.ExampleId,
+                ExampleId = exampleTask.ExampleId,
                 Result = result,
                 Time = DateTime.UtcNow
             });
+
+            responseTasks[i] = responseTask;
         }
+        
+        await Task.WhenAll(responseTasks);
     }
 }
