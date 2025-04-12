@@ -6,8 +6,7 @@ namespace GerundOrInfinitive.Domain.Services;
 
 public class ExampleRepository
 {
-    // TODO Disorder first in SQL ->
-    private const string GetExamplesQuery = "SELECT * FROM OrderedExamples LIMIT {0};";
+    private const string GetExamplesQuery = "SELECT * FROM ExamplesBatch LIMIT {0};";
     
     private readonly IAppSettings _appSettings;
     private readonly SQLiteAsyncConnection _database;

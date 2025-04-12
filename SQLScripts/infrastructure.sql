@@ -21,23 +21,25 @@ CREATE TABLE LatestExampleResponses (
     FOREIGN KEY (ExampleId) REFERENCES Examples(Id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE VIEW OrderedExamples AS
+CREATE VIEW ExamplesBatch AS
 SELECT *
 FROM Examples ex
-LEFT JOIN LatestExampleResponses resp ON ex.Id = resp.ExampleId
+         LEFT JOIN LatestExampleResponses resp ON ex.Id = resp.ExampleId
 ORDER BY
     CASE WHEN resp.Result = 0 THEN 0 ELSE 1 END,
-    resp.Time;
+    resp.Time,
+    RANDOM();
 
 SELECT *
-FROM OrderedExamples
+FROM ExamplesBatch
 LIMIT 10;
 
 
-SELECT * FROM Examples
+SELECT * FROM Examples;
 
-DELETE FROM Examples
+DELETE FROM Examples;
 
-DROP TABLE Examples
+DROP VIEW ExamplesBatch;
+DROP TABLE Examples;
 
-DROP TABLE AlternativeCorrectAnswers
+DROP TABLE AlternativeCorrectAnswers;
