@@ -1,5 +1,5 @@
-﻿using System.Reactive.Linq;
-using System.Windows.Input;
+﻿using System.Reactive;
+using System.Reactive.Linq;
 using GerundOrInfinitive.Domain.Models.Settings;
 using GerundOrInfinitive.Presentation.Services.Contracts;
 using GerundOrInfinitive.Presentation.Views;
@@ -13,10 +13,8 @@ internal class MainPageViewModel : ReactiveObject
     
     private readonly IAppSettings _appSettings;
     private readonly INavigationService _navigationService;
-    
     private readonly ObservableAsPropertyHelper<string> _examplesCountText;
-    private Command _startTestingCommand;
-
+    
     public int MinExamplesCount => _appSettings.MinExamplesCount;
     public int MaxExamplesCount => _appSettings.MaxExamplesCount;
     
@@ -34,14 +32,8 @@ internal class MainPageViewModel : ReactiveObject
         set => _appSettings.ShowAlertDialog = value;
     }
 
-    public ICommand StartTestingCommand
-    {
-        get
-        {
-            return _startTestingCommand ??= new Command(StartTesting);
-        }
-    }
-    
+    public IReactiveCommand<Unit, Unit> StartTestingCommand { get; }
+
     public MainPageViewModel(IAppSettings appSettings, INavigationService navigationService)
     {
         _appSettings = appSettings;
@@ -51,10 +43,12 @@ internal class MainPageViewModel : ReactiveObject
             .WhenAnyValue(settings => settings.ExamplesCount)
             .Select(examplesCount => string.Format(ExamplesCountTextPattern, examplesCount))
             .ToProperty(this, viewModel => viewModel.ExamplesCountText, out _examplesCountText);
+
+        StartTestingCommand = ReactiveCommand.CreateFromTask(StartTesting);
     }
 
-    private async void StartTesting()
+    private Task StartTesting()
     {
-        await _navigationService.NavigateToAsync<TestingPage>();
+        return _navigationService.NavigateToAsync<TestingPage>();
     }
 }

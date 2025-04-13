@@ -1,26 +1,22 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
+using System.Reactive;
 using GerundOrInfinitive.Domain.Models.ExampleTask;
-using GerundOrInfinitive.Domain.Models.Settings;
 using GerundOrInfinitive.Domain.Services;
 using GerundOrInfinitive.Presentation.Services.Contracts;
 using GerundOrInfinitive.Presentation.Services.Implementations;
-using GerundOrInfinitive.Presentation.ViewModels.Base;
 using ReactiveUI;
 
 namespace GerundOrInfinitive.Presentation.ViewModels;
 
 internal class TestingViewModel : ReactiveObject
 {
-    private readonly IAppSettings _appSettings;
     private readonly AppResources _appResources;
     private readonly INavigationService _navigationService;
     private readonly Teacher _teacher;
     
     private string _messageText;
-    private ObservableCollection<ExampleTaskViewModel> _taskViewModels = new ObservableCollection<ExampleTaskViewModel>();
-    private Command _submitCommand;
-    private Command _gotItCommand;
+    private ObservableCollection<ExampleTaskViewModel> _taskViewModels = new();
+    private Task _showExamplesRoutine;
     
     public event Func<Task<bool>> OnPreSubmit;
     public event Action<bool> OnPostSubmit;
@@ -37,56 +33,55 @@ internal class TestingViewModel : ReactiveObject
         set => this.RaiseAndSetIfChanged(ref _taskViewModels, value);
     }
 
-    public ICommand SubmitCommand
-    {
-        get
-        {
-            return _submitCommand ??= new Command(Submit);
-        }
-    }
-    
-    public ICommand GotItCommand
-    {
-        get
-        {
-            return _gotItCommand ??= new Command(GotIt);
-        }
-    }
+    public ReactiveCommand<Unit, Unit> SubmitCommand { get; }
+    public ReactiveCommand<Unit, Unit> GotItCommand { get; }
     
     public TestingViewModel(
-        IAppSettings appSettings, 
         AppResources appResources, 
         INavigationService navigationService, 
         Teacher teacher)
     {
-        _appSettings = appSettings;
         _appResources = appResources;
         _navigationService = navigationService;
         _teacher = teacher;
         
-        _teacher.NewTasksAsync().ContinueWith(task =>
+        _showExamplesRoutine = _teacher.NewTasksAsync().ContinueWith(task =>
         {
-            List<ExampleTask> sourceTasks = task.Result.ToList();
-            var taskViewModels = new List<ExampleTaskViewModel>(sourceTasks.Capacity);
-            
-            for (int i = 0; i < sourceTasks.Count; i++)
-            {
-                taskViewModels.Add(Map(sourceTasks[i], i));
-            }
-            
-            TaskViewModels = new ObservableCollection<ExampleTaskViewModel>(taskViewModels);
-            
+            ShowTasks(task.Result.ToList());
+
         }, TaskScheduler.FromCurrentSynchronizationContext());
 
         MessageText = _appResources.TutorialString;
+
+        //IObservable<bool> canUseCommands = CanUseCommands();
+        SubmitCommand = ReactiveCommand.CreateFromTask(Submit/*, canUseCommands*/);
+        GotItCommand = ReactiveCommand.CreateFromTask(GotIt/*, canUseCommands*/);
     }
-    
+
+    private void ShowTasks(List<ExampleTask> sourceTasks)
+    {
+        var taskViewModels = new List<ExampleTaskViewModel>(sourceTasks.Capacity);
+            
+        for (int i = 0; i < sourceTasks.Count; i++)
+        {
+            taskViewModels.Add(Map(sourceTasks[i], i));
+        }
+            
+        TaskViewModels = new ObservableCollection<ExampleTaskViewModel>(taskViewModels);
+    }
+
     private ExampleTaskViewModel Map(ExampleTask exampleTask, int taskIndex)
     {
         return new ExampleTaskViewModel(exampleTask, ++taskIndex);
     }
-    
-    private async void Submit()
+
+    private IObservable<bool> CanUseCommands()
+    {
+        return this.WhenAnyValue(viewModel => 
+            viewModel._showExamplesRoutine != null && viewModel._showExamplesRoutine.IsCompleted);
+    }
+
+    private async Task Submit()
     {
         bool accepted = false;
             
@@ -103,7 +98,7 @@ internal class TestingViewModel : ReactiveObject
         OnPostSubmit?.Invoke(accepted);
     }
 
-    private async void GotIt()
+    private async Task GotIt()
     {
         await _navigationService.GoBackAsync();
     }
