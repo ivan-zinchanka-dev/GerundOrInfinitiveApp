@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
+using System.Reactive.Subjects;
 using GerundOrInfinitive.Domain.Models.ExampleTask;
 using GerundOrInfinitive.Domain.Services;
 using GerundOrInfinitive.Presentation.Services.Contracts;
@@ -13,10 +14,10 @@ internal class TestingViewModel : ReactiveObject
     private readonly AppResources _appResources;
     private readonly INavigationService _navigationService;
     private readonly Teacher _teacher;
+    private readonly Subject<bool> _canUseCommands = new Subject<bool>();
     
     private string _messageText;
     private ObservableCollection<ExampleTaskViewModel> _taskViewModels = new();
-    private Task _showExamplesRoutine;
     
     public event Func<Task<bool>> OnPreSubmit;
     public event Action<bool> OnPostSubmit;
@@ -45,17 +46,18 @@ internal class TestingViewModel : ReactiveObject
         _navigationService = navigationService;
         _teacher = teacher;
         
-        _showExamplesRoutine = _teacher.NewTasksAsync().ContinueWith(task =>
+        _canUseCommands.OnNext(false);
+        _teacher.NewTasksAsync().ContinueWith(task =>
         {
             ShowTasks(task.Result.ToList());
-
+            _canUseCommands.OnNext(true);
+            
         }, TaskScheduler.FromCurrentSynchronizationContext());
 
         MessageText = _appResources.TutorialString;
-
-        //IObservable<bool> canUseCommands = CanUseCommands();
-        SubmitCommand = ReactiveCommand.CreateFromTask(Submit/*, canUseCommands*/);
-        GotItCommand = ReactiveCommand.CreateFromTask(GotIt/*, canUseCommands*/);
+        
+        SubmitCommand = ReactiveCommand.CreateFromTask(Submit, _canUseCommands);
+        GotItCommand = ReactiveCommand.CreateFromTask(GotIt, _canUseCommands);
     }
 
     private void ShowTasks(List<ExampleTask> sourceTasks)
@@ -73,12 +75,6 @@ internal class TestingViewModel : ReactiveObject
     private ExampleTaskViewModel Map(ExampleTask exampleTask, int taskIndex)
     {
         return new ExampleTaskViewModel(exampleTask, ++taskIndex);
-    }
-
-    private IObservable<bool> CanUseCommands()
-    {
-        return this.WhenAnyValue(viewModel => 
-            viewModel._showExamplesRoutine != null && viewModel._showExamplesRoutine.IsCompleted);
     }
 
     private async Task Submit()
