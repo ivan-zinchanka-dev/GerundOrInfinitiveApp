@@ -23,38 +23,35 @@
                    VerticalTextAlignment="Center" 
                    Text="{Binding MessageText}" />
         </Border>
-        <ListView Grid.Row="1"
-                  HasUnevenRows="True" 
+        <CollectionView Grid.Row="1"
                   Margin="10"
                   ItemsSource="{Binding TaskViewModels}">
-            <ListView.ItemTemplate>
+            <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Orientation="Vertical"
-                                     BackgroundColor="{Binding Status, 
-                                     Converter={StaticResource CheckingStatusToBackgroundConverter}}">
-                            <Label Text="{Binding HeaderText}"
-                                   TextType="Html"
-                                   />
-                            <FlexLayout Direction="Row" Wrap="Wrap">
-                                <Label Text="{Binding BeforeBlankText}" 
-                                       LineBreakMode="WordWrap"
-                                       VerticalOptions="Center"
-                                />
-                                <Entry Text = "{Binding InputBlankText}" 
-                                       WidthRequest="70"
-                                       VerticalOptions="Center"
-                                />
-                                <Label Text="{Binding AfterBlankText}" 
-                                       LineBreakMode="WordWrap"
-                                       VerticalOptions="Center"
-                                />
-                            </FlexLayout>
-                        </StackLayout>
-                    </ViewCell>
+                    <StackLayout Orientation="Vertical"
+                                 BackgroundColor="{Binding Status, 
+                                 Converter={StaticResource CheckingStatusToBackgroundConverter}}">
+                        <Label Text="{Binding HeaderText}"
+                               TextType="Html"
+                               />
+                        <FlexLayout Direction="Row" Wrap="Wrap">
+                            <Label Text="{Binding BeforeBlankText}" 
+                                   LineBreakMode="WordWrap"
+                                   VerticalOptions="Center"
+                            />
+                            <Entry Text = "{Binding InputBlankText}" 
+                                   WidthRequest="70"
+                                   VerticalOptions="Center"
+                            />
+                            <Label Text="{Binding AfterBlankText}" 
+                                   LineBreakMode="WordWrap"
+                                   VerticalOptions="Center"
+                            />
+                        </FlexLayout>
+                    </StackLayout>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
         <Button Grid.Row ="2"
                 Text="Submit"
                 Command="{Binding SubmitCommand}"
