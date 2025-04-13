@@ -9,7 +9,7 @@
         <VerticalStackLayout Padding="30,0"
                              VerticalOptions="Center"
                              Spacing="50">
-            <Grid>
+            <Grid RowSpacing="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.1*"/>
                     <ColumnDefinition Width="0.45*"/>
@@ -17,16 +17,25 @@
                     <ColumnDefinition Width="0.2*"/>
                     <ColumnDefinition Width="0.2*"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="1"
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="1" Grid.Row="0"
                        VerticalOptions="Center"
                        Text="{Binding ExamplesCountText}"/>
-                <Stepper Grid.Column="3"
+                <Stepper Grid.Column="3" Grid.Row="0"
                          Minimum="{Binding MinExamplesCount}"
                          Maximum="{Binding MaxExamplesCount}"
                          Increment="1"
                          HeightRequest="40"
                          VerticalOptions="Center"
                          Value="{Binding ExamplesCount}"/>
+                <Label Grid.Column="1" Grid.Row="1"
+                       VerticalOptions="Center"
+                       Text="Show alert dialog"/>
+                <CheckBox Grid.Column="3" Grid.Row="1"
+                          IsChecked="{Binding ShowAlertDialog}"/>
             </Grid>
             
             <Button WidthRequest="200"

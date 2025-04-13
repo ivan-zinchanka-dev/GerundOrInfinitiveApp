@@ -1,14 +1,17 @@
-﻿using GerundOrInfinitive.Presentation.ViewModels;
+﻿using GerundOrInfinitive.Domain.Models.Settings;
+using GerundOrInfinitive.Presentation.ViewModels;
 
 namespace GerundOrInfinitive.Presentation.Views;
 
 internal partial class TestingPage : ContentPage
 {
+    private readonly IAppSettings _appSettings;
     private readonly TestingViewModel _viewModel;
     
-    public TestingPage(TestingViewModel viewModel)
+    public TestingPage(TestingViewModel viewModel, IAppSettings appSettings)
     {
         _viewModel = viewModel;
+        _appSettings = appSettings;
         BindingContext = _viewModel;
         InitializeComponent();
     }
@@ -21,6 +24,11 @@ internal partial class TestingPage : ContentPage
 
     private Task<bool> DisplayAlert()
     {
+        if (!_appSettings.ShowAlertDialog)
+        {
+            return Task.FromResult(true);
+        }
+
         return DisplayAlert("Confirm the action", "Are you sure you want to start checking?", "Yes", "No");
     }
 

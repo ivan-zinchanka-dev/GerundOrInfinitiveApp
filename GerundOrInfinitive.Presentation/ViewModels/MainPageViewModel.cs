@@ -42,7 +42,18 @@ internal class MainPageViewModel : BaseViewModel
             OnPropertyChanged();
         }
     }
-    
+
+    public bool ShowAlertDialog
+    {
+        get => _appSettings.ShowAlertDialog;
+
+        set
+        {
+            _appSettings.ShowAlertDialog = value;
+            OnPropertyChanged();
+        }
+    }
+
     public ICommand StartTestingCommand
     {
         get

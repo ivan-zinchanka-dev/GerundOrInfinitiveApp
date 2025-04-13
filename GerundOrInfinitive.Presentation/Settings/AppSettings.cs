@@ -8,10 +8,12 @@ namespace GerundOrInfinitive.Presentation.Settings;
 internal class AppSettings : IAppSettings, INotifyPropertyChanged
 {
     private const string ExamplesCountKey = "examples_count";
+    private const string ShowAlertDialogKey = "show_alert_dialog";
     
     private const int MinExamplesCountInternal = 5;
     private const int DefaultExamplesCount = 10;
     private const int MaxExamplesCountInternal = 20;
+    private const bool DefaultShowAlertDialog = true;
     
     [Range(MinExamplesCountInternal, MaxExamplesCountInternal)]
     public int ExamplesCount
@@ -26,6 +28,16 @@ internal class AppSettings : IAppSettings, INotifyPropertyChanged
     
     public int MaxExamplesCount => MaxExamplesCountInternal;
     public int MinExamplesCount => MinExamplesCountInternal;
+    
+    public bool ShowAlertDialog
+    {
+        get => Preferences.Get(ShowAlertDialogKey, DefaultShowAlertDialog);
+        set
+        {
+            Preferences.Set(ShowAlertDialogKey, value);
+            OnPropertyChanged();
+        }
+    }
     
     public string DatabasePath { get; }
 
