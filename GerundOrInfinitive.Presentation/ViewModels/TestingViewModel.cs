@@ -15,14 +15,14 @@ internal class TestingViewModel : BaseViewModel
     private readonly AppResources _appResources;
     private readonly INavigationService _navigationService;
     private readonly Teacher _teacher;
-
-    private bool _isChecked = false;
     
     private string _messageText;
     private ObservableCollection<ExampleTaskViewModel> _taskViewModels = new ObservableCollection<ExampleTaskViewModel>();
     private Command _submitCommand;
-
+    private Command _gotItCommand;
+    
     public event Func<Task<bool>> OnPreSubmit;
+    public event Action<bool> OnPostSubmit;
     
     public string MessageText
     {
@@ -51,6 +51,14 @@ internal class TestingViewModel : BaseViewModel
         get
         {
             return _submitCommand ??= new Command(Submit);
+        }
+    }
+    
+    public ICommand GotItCommand
+    {
+        get
+        {
+            return _gotItCommand ??= new Command(GotIt);
         }
     }
     
@@ -89,25 +97,24 @@ internal class TestingViewModel : BaseViewModel
     
     private async void Submit()
     {
-        if (!_isChecked)
-        {
-            bool accepted = false;
+        bool accepted = false;
             
-            if (OnPreSubmit != null)
-            {
-                accepted = await OnPreSubmit();
-            }
-
-            if (accepted)
-            {
-                await CheckTasksAsync();
-                _isChecked = true;
-            }
-        }
-        else
+        if (OnPreSubmit != null)
         {
-            await _navigationService.GoBackAsync();
+            accepted = await OnPreSubmit();
         }
+
+        if (accepted)
+        {
+            await CheckTasksAsync();
+        }
+        
+        OnPostSubmit?.Invoke(accepted);
+    }
+
+    private async void GotIt()
+    {
+        await _navigationService.GoBackAsync();
     }
 
     private async Task CheckTasksAsync()

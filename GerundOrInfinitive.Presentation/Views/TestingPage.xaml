@@ -53,6 +53,8 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
         <Button Grid.Row ="2"
+                x:FieldModifier="private"
+                x:Name="_actionButton"
                 Text="Submit"
                 Command="{Binding SubmitCommand}"
                 Margin= "10"
