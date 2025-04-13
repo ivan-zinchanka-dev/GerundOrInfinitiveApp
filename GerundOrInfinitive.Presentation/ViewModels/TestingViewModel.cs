@@ -21,6 +21,8 @@ internal class TestingViewModel : BaseViewModel
     private string _messageText;
     private ObservableCollection<ExampleTaskViewModel> _taskViewModels = new ObservableCollection<ExampleTaskViewModel>();
     private Command _submitCommand;
+
+    public event Func<Task<bool>> OnPreSubmit;
     
     public string MessageText
     {
@@ -88,9 +90,19 @@ internal class TestingViewModel : BaseViewModel
     private async void Submit()
     {
         if (!_isChecked)
-        { 
-            await CheckTasksAsync();
-            _isChecked = true;
+        {
+            bool accepted = false;
+            
+            if (OnPreSubmit != null)
+            {
+                accepted = await OnPreSubmit();
+            }
+
+            if (accepted)
+            {
+                await CheckTasksAsync();
+                _isChecked = true;
+            }
         }
         else
         {
