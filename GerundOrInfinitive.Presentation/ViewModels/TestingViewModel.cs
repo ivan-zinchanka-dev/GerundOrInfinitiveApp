@@ -6,10 +6,11 @@ using GerundOrInfinitive.Domain.Services;
 using GerundOrInfinitive.Presentation.Services.Contracts;
 using GerundOrInfinitive.Presentation.Services.Implementations;
 using GerundOrInfinitive.Presentation.ViewModels.Base;
+using ReactiveUI;
 
 namespace GerundOrInfinitive.Presentation.ViewModels;
 
-internal class TestingViewModel : BaseViewModel
+internal class TestingViewModel : ReactiveObject
 {
     private readonly IAppSettings _appSettings;
     private readonly AppResources _appResources;
@@ -27,23 +28,13 @@ internal class TestingViewModel : BaseViewModel
     public string MessageText
     {
         get => _messageText;
-
-        set
-        {
-            _messageText = value;
-            OnPropertyChanged();
-        }
+        set => this.RaiseAndSetIfChanged(ref _messageText, value);
     }
 
     public ObservableCollection<ExampleTaskViewModel> TaskViewModels
     {
         get => _taskViewModels;
-
-        set
-        {
-            _taskViewModels = value;
-            OnPropertyChanged();
-        }
+        set => this.RaiseAndSetIfChanged(ref _taskViewModels, value);
     }
 
     public ICommand SubmitCommand

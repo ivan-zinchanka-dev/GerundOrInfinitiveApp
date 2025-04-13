@@ -1,9 +1,9 @@
 ﻿using GerundOrInfinitive.Domain.Models.ExampleTask;
-using GerundOrInfinitive.Presentation.ViewModels.Base;
+using ReactiveUI;
 
 namespace GerundOrInfinitive.Presentation.ViewModels;
 
-public class ExampleTaskViewModel : BaseViewModel
+public class ExampleTaskViewModel : ReactiveObject
 {
     private const string SourceVerbPattern = "{0}) Source verb: <b>{1}</b>. ";
     private const string CorrectAnswerPattern = "Correct answer: {0}";
@@ -18,12 +18,7 @@ public class ExampleTaskViewModel : BaseViewModel
     public string HeaderText
     {
         get => _headerText;
-
-        set
-        {
-            _headerText = value;
-            OnPropertyChanged();
-        }
+        set => this.RaiseAndSetIfChanged(ref _headerText, value);
     }
     
     public string BeforeBlankText { get; }
@@ -32,34 +27,19 @@ public class ExampleTaskViewModel : BaseViewModel
     public string InputBlankText
     {
         get => _inputBlackText;
-
-        set
-        {
-            _inputBlackText = value;
-            OnPropertyChanged();
-        }
+        set => this.RaiseAndSetIfChanged(ref _inputBlackText, value);
     }
     
     public CheckingStatus Status
     {
         get => _checkingStatus;
-
-        set
-        {
-            _checkingStatus = value;
-            OnPropertyChanged();
-        }
+        set => this.RaiseAndSetIfChanged(ref _checkingStatus, value);
     }
 
     public bool IsChecked
     {
         get => _isChecked;
-
-        set
-        {
-            _isChecked = value;
-            OnPropertyChanged();
-        }
+        set => this.RaiseAndSetIfChanged(ref _isChecked, value);
     }
 
     public ExampleTaskViewModel(ExampleTask exampleTask, int taskNumber)

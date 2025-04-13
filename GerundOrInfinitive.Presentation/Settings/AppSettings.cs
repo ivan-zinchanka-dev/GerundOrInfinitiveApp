@@ -1,11 +1,10 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
+﻿using System.ComponentModel.DataAnnotations;
 using GerundOrInfinitive.Domain.Models.Settings;
+using ReactiveUI;
 
 namespace GerundOrInfinitive.Presentation.Settings;
 
-internal class AppSettings : IAppSettings, INotifyPropertyChanged
+internal class AppSettings : ReactiveObject, IAppSettings
 {
     private const string ExamplesCountKey = "examples_count";
     private const string ShowAlertDialogKey = "show_alert_dialog";
@@ -14,16 +13,15 @@ internal class AppSettings : IAppSettings, INotifyPropertyChanged
     private const int DefaultExamplesCount = 10;
     private const int MaxExamplesCountInternal = 20;
     private const bool DefaultShowAlertDialog = true;
+
+    private int _examplesCount;
+    private bool _showAlertDialog;
     
     [Range(MinExamplesCountInternal, MaxExamplesCountInternal)]
     public int ExamplesCount
     {
-        get => Preferences.Get(ExamplesCountKey, DefaultExamplesCount);
-        set
-        {
-            Preferences.Set(ExamplesCountKey, value);
-            OnPropertyChanged();
-        }
+        get => _examplesCount;
+        set => this.RaiseAndSetIfChanged(ref _examplesCount, value);
     }
     
     public int MaxExamplesCount => MaxExamplesCountInternal;
@@ -31,12 +29,8 @@ internal class AppSettings : IAppSettings, INotifyPropertyChanged
     
     public bool ShowAlertDialog
     {
-        get => Preferences.Get(ShowAlertDialogKey, DefaultShowAlertDialog);
-        set
-        {
-            Preferences.Set(ShowAlertDialogKey, value);
-            OnPropertyChanged();
-        }
+        get => _showAlertDialog;
+        set => this.RaiseAndSetIfChanged(ref _showAlertDialog, value);
     }
     
     public string DatabasePath { get; }
@@ -44,12 +38,13 @@ internal class AppSettings : IAppSettings, INotifyPropertyChanged
     public AppSettings(string databasePath)
     {
         DatabasePath = databasePath;
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        
+        _examplesCount = Preferences.Get(ExamplesCountKey, DefaultExamplesCount);
+        this.WhenAnyValue(model => model.ExamplesCount)
+            .Subscribe(value => Preferences.Set(ExamplesCountKey, value));
+        
+        _showAlertDialog = Preferences.Get(ShowAlertDialogKey, DefaultShowAlertDialog);
+        this.WhenAnyValue(model => model.ShowAlertDialog)
+            .Subscribe(value =>  Preferences.Set(ShowAlertDialogKey, value));
     }
 }
