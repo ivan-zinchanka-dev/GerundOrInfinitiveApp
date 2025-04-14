@@ -12,6 +12,7 @@ namespace GerundOrInfinitive.Presentation;
 
 public static class MauiProgram
 {
+    //TODO Icon, splash, styles (colors), data cleaning issue
     public static MauiApp CreateMauiApp()
     { 
         string databasePath = null;
