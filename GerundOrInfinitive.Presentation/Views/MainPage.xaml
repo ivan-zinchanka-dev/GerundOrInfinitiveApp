@@ -33,8 +33,7 @@
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="5" />
                     </Border.StrokeShape>
-                    <Stepper Grid.Column="3" Grid.Row="0"
-                             Minimum="{Binding MinExamplesCount}"
+                    <Stepper Minimum="{Binding MinExamplesCount}"
                              Maximum="{Binding MaxExamplesCount}"
                              Increment="1"
                              HeightRequest="40"
