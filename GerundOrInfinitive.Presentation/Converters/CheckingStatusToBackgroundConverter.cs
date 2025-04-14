@@ -15,7 +15,7 @@ public class CheckingStatusToBackgroundConverter : IValueConverter
             {
                 case CheckingStatus.Unchecked:
                 default:
-                    return Color.FromArgb("#f0f0f0");  
+                    return Colors.White;  
                 
                 case CheckingStatus.Correct:
                     return Color.FromArgb("#bff199");   

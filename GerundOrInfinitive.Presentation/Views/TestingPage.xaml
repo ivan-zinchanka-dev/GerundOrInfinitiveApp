@@ -4,7 +4,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:ClassModifier="internal"
              x:Class="GerundOrInfinitive.Presentation.Views.TestingPage"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             Background="{StaticResource BackgroundBrush}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>
@@ -15,7 +16,8 @@
         <Border Grid.Row="0" 
                 Stroke="Gray" 
                 StrokeThickness="2"
-                BackgroundColor="#e1e1e1">
+                Margin="10"
+                Background="{StaticResource WhiteBrush}">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="10" />
             </Border.StrokeShape>
@@ -23,42 +25,53 @@
                    VerticalTextAlignment="Center" 
                    Text="{Binding MessageText}" />
         </Border>
-        <CollectionView Grid.Row="1"
-                  Margin="10"
+        <Border Grid.Row="1" Margin="10"
+                Background="{StaticResource BackgroundBrush}" 
+                Stroke="Gray" 
+                StrokeThickness="2">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10" />
+            </Border.StrokeShape>
+            <CollectionView 
+                  
                   ItemsSource="{Binding TaskViewModels}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Orientation="Vertical"
-                                 BackgroundColor="{Binding Status, 
-                                 Converter={StaticResource CheckingStatusToBackgroundConverter}}">
-                        <Label Text="{Binding HeaderText}"
-                               TextType="Html"
-                               />
-                        <FlexLayout Direction="Row" Wrap="Wrap">
-                            <Label Text="{Binding BeforeBlankText}" 
-                                   LineBreakMode="WordWrap"
-                                   VerticalOptions="Center"
-                            />
-                            <Entry Text = "{Binding InputBlankText}" 
-                                   WidthRequest="70"
-                                   VerticalOptions="Center"
-                            />
-                            <Label Text="{Binding AfterBlankText}" 
-                                   LineBreakMode="WordWrap"
-                                   VerticalOptions="Center"
-                            />
-                        </FlexLayout>
-                    </StackLayout>
+                    
+                        <StackLayout Orientation="Vertical"
+                                     BackgroundColor="{Binding Status, 
+                                     Converter={StaticResource CheckingStatusToBackgroundConverter}}">
+                            <Label Text="{Binding HeaderText}"
+                                   TextType="Html"
+                                   Margin="5"/>
+                            <FlexLayout Direction="Row" Wrap="Wrap"
+                                        Margin="5">
+                                <Label Text="{Binding BeforeBlankText}" 
+                                       LineBreakMode="WordWrap"
+                                       VerticalOptions="Center"
+                                />
+                                <Entry Text = "{Binding InputBlankText}" 
+                                       WidthRequest="70"
+                                       VerticalOptions="Center"
+                                />
+                                <Label Text="{Binding AfterBlankText}" 
+                                       LineBreakMode="WordWrap"
+                                       VerticalOptions="Center"
+                                />
+                            </FlexLayout>
+                        </StackLayout>
+                    
+                    
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        </Border>
         <Button Grid.Row ="2"
                 x:FieldModifier="private"
                 x:Name="_actionButton"
                 Text="Submit"
                 Command="{Binding SubmitCommand}"
-                Margin= "10"
-                />
+                Margin= "10"/>
     </Grid>
     
 </ContentPage>
