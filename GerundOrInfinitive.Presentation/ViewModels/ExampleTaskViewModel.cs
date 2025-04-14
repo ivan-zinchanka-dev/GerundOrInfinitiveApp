@@ -6,7 +6,7 @@ namespace GerundOrInfinitive.Presentation.ViewModels;
 public class ExampleTaskViewModel : ReactiveObject
 {
     private const string SourceVerbPattern = "{0}) Source verb: <b>{1}</b>. ";
-    private const string CorrectAnswerPattern = "Correct answer: {0}";
+    private const string CorrectAnswerPattern = "Correct answer: <b>{0}</b>";
     
     private string _headerText;
     private string _inputBlackText;

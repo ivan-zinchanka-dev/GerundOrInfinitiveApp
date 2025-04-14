@@ -7,6 +7,10 @@ namespace GerundOrInfinitive.Presentation.Converters;
 // TODO Colors to resources, list item too
 public class CheckingStatusToBackgroundConverter : IValueConverter
 {
+    public Color UncheckedColor { get; set; } = Colors.White;
+    public Color CorrectColor { get; set; } = Colors.LightGreen;
+    public Color IncorrectColor { get; set; } = Colors.LightCoral;
+    
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is CheckingStatus checkingStatus)
@@ -15,13 +19,13 @@ public class CheckingStatusToBackgroundConverter : IValueConverter
             {
                 case CheckingStatus.Unchecked:
                 default:
-                    return Colors.White;  
+                    return UncheckedColor;  
                 
                 case CheckingStatus.Correct:
-                    return Color.FromArgb("#bff199");   
+                    return CorrectColor;   
                 
                 case CheckingStatus.Incorrect:
-                    return Color.FromArgb("#f7c8c9");
+                    return IncorrectColor;
             }
         }
         else

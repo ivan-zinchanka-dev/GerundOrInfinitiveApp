@@ -14,6 +14,9 @@
     <Color x:Key="Tertiary">DarkBlue</Color>
     
     <Color x:Key="Background">#f0f0f0</Color>
+    <Color x:Key="Unchecked">White</Color>
+    <Color x:Key="Correct">#b0ed47</Color>
+    <Color x:Key="Incorrect">#ff6b6b</Color>
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
