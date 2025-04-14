@@ -36,7 +36,7 @@
 
     <ItemGroup>
         <!-- App Icon -->
-        <MauiIcon Include="Resources\AppIcon\appicon.png"/>
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#FFFFFF"/>
         <!-- Splash Screen -->
         <MauiSplashScreen Include="Resources\Splash\uk_heart.jpg" Color="#FFFFFF" BaseSize = "275, 300"/>
 
