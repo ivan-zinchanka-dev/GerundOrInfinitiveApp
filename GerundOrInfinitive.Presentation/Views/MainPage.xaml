@@ -15,8 +15,8 @@
                     <ColumnDefinition Width="0.1*"/>
                     <ColumnDefinition Width="0.45*"/>
                     <ColumnDefinition Width="0.05*"/>
-                    <ColumnDefinition Width="0.2*"/>
-                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="0.25*"/>
+                    <ColumnDefinition Width="0.15*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -25,13 +25,23 @@
                 <Label Grid.Column="1" Grid.Row="0"
                        VerticalOptions="Center"
                        Text="{Binding ExamplesCountText}"/>
-                <Stepper Grid.Column="3" Grid.Row="0"
-                         Minimum="{Binding MinExamplesCount}"
-                         Maximum="{Binding MaxExamplesCount}"
-                         Increment="1"
-                         HeightRequest="40"
-                         VerticalOptions="Center"
-                         Value="{Binding ExamplesCount}"/>
+                
+                <Border Grid.Column="3" Grid.Row="0"
+                        StrokeThickness="1"
+                        Padding="0 1 0 1"
+                        Background="{StaticResource PrimaryBrush}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="5" />
+                    </Border.StrokeShape>
+                    <Stepper Grid.Column="3" Grid.Row="0"
+                             Minimum="{Binding MinExamplesCount}"
+                             Maximum="{Binding MaxExamplesCount}"
+                             Increment="1"
+                             HeightRequest="40"
+                             VerticalOptions="Center"
+                             Value="{Binding ExamplesCount}"/>
+                </Border>
+                
                 <Label Grid.Column="1" Grid.Row="1"
                        VerticalOptions="Center"
                        Text="Show alert dialog"/>
