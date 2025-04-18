@@ -1,16 +1,20 @@
-﻿namespace GerundOrInfinitive.Presentation.Views;
+﻿using Microsoft.Maui.Controls.Compatibility.Platform.Android;
+
+namespace GerundOrInfinitive.Presentation.Views;
 
 public partial class ExampleTaskView : ContentView
 {
     public static readonly BindableProperty BeforeBlankTextProperty = BindableProperty.Create(
-        nameof(BeforeBlankText), typeof(string), typeof(ExampleTaskView), string.Empty, BindingMode.OneWay);
-
-    public static readonly BindableProperty AfterBlankTextProperty = BindableProperty.Create(
-        nameof(AfterBlankText), typeof(string), typeof(ExampleTaskView), string.Empty, BindingMode.OneWay);
+        nameof(BeforeBlankText), typeof(string), typeof(ExampleTaskView), string.Empty, BindingMode.OneWay,
+        propertyChanged: OnTextChanged);
 
     public static readonly BindableProperty InputBlankTextProperty = BindableProperty.Create(
         nameof(InputBlankText), typeof(string), typeof(ExampleTaskView), string.Empty, BindingMode.TwoWay);
-
+    
+    public static readonly BindableProperty AfterBlankTextProperty = BindableProperty.Create(
+        nameof(AfterBlankText), typeof(string), typeof(ExampleTaskView), string.Empty, BindingMode.OneWay,
+        propertyChanged: OnTextChanged);
+    
     public string BeforeBlankText
     {
         get => (string)GetValue(BeforeBlankTextProperty);
@@ -32,15 +36,86 @@ public partial class ExampleTaskView : ContentView
     public ExampleTaskView()
     {
         InitializeComponent();
+    }
+
+    private static void OnTextChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        if (bindable is ExampleTaskView view)
+        {
+            view.UpdateLayout();
+        }
+    }
+
+    private void UpdateLayout()
+    {
+        _layout.Children.Clear();
+
+        Label[] beforeBlankWordLabels = CreateWordLabels(BeforeBlankText);
+        foreach (Label wordLabel in beforeBlankWordLabels)
+        {
+            _layout.Children.Add(wordLabel);
+        }
         
-        _beforeBlankLabel.SetBinding(Label.TextProperty, 
-            new Binding(nameof(BeforeBlankText), BindingMode.OneWay, source: this));
-        
-        _inputBlankEntry.SetBinding(Entry.TextProperty, 
+        Entry blankEntry = CreateBlankEntry();
+        blankEntry.SetBinding(Entry.TextProperty, 
             new Binding(nameof(InputBlankText), BindingMode.TwoWay, source: this));
-    
-        _afterBlankLabel.SetBinding(Label.TextProperty, 
-            new Binding(nameof(AfterBlankText), BindingMode.OneWay, source: this));
+
+        _layout.Children.Add(blankEntry);
+
+        Label[] afterBlankWordLabels = CreateWordLabels(AfterBlankText);
+        foreach (Label wordLabel in afterBlankWordLabels)
+        {
+            _layout.Children.Add(wordLabel);
+        }
         
     }
+
+    private Label[] CreateWordLabels(string text)
+    {
+        const char space = ' ';
+        string[] words = text.Split(space, StringSplitOptions.RemoveEmptyEntries);
+        Label[] result = new Label[words.Length];
+
+        for (int i = 0; i < words.Length; i++)
+        {
+            string wordText = null;
+            
+            if (i == 0)
+            {
+                wordText = words[i] + space;
+            }
+            else if (i == words.Length - 1)
+            {
+                wordText = space + words[i];
+            }
+            else
+            {
+                wordText = space + words[i] + space;
+            }
+
+            result[i] = CreateWordLabel(wordText);
+        }
+
+        return result;
+    }
+
+    private Label CreateWordLabel(string text)
+    {
+        return new Label()
+        {
+            Text = text,
+            LineBreakMode = LineBreakMode.WordWrap,
+            VerticalOptions = LayoutOptions.Center
+        };
+    }
+
+    private Entry CreateBlankEntry()
+    {
+        return new Entry()
+        {
+            WidthRequest = 80d,
+            VerticalOptions = LayoutOptions.Center
+        };
+    }
+
 }
