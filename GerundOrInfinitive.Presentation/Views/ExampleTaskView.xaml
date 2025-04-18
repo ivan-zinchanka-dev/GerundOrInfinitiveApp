@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GerundOrInfinitive.Presentation.Views.ExampleTaskView">
+    <StackLayout Orientation="Vertical"
+                 BackgroundColor="{Binding Status, 
+                 Converter={StaticResource CheckingStatusToBackgroundConverter}}">
+        <Label Text="{Binding HeaderText}"
+               TextType="Html"
+               Margin="5"/>
+        <FlexLayout Direction="Row" Wrap="Wrap"
+                    Margin="5">
+            <Label x:FieldModifier="private"
+                   x:Name="_beforeBlankLabel"
+                   LineBreakMode="WordWrap"
+                   VerticalOptions="Center"
+            />
+            <Entry x:FieldModifier="private"
+                   x:Name="_inputBlankEntry"
+                   WidthRequest="70"
+                   VerticalOptions="Center"
+            />
+            <Label x:FieldModifier="private"
+                   x:Name="_afterBlankLabel"
+                   LineBreakMode="WordWrap"
+                   VerticalOptions="Center"
+            />
+        </FlexLayout>
+    </StackLayout>
+</ContentView>

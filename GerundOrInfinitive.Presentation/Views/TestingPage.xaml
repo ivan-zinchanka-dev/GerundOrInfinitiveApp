@@ -2,6 +2,7 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:GerundOrInfinitive.Presentation.Views"
              x:ClassModifier="internal"
              x:Class="GerundOrInfinitive.Presentation.Views.TestingPage"
              NavigationPage.HasNavigationBar="False"
@@ -32,36 +33,14 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="10" />
             </Border.StrokeShape>
-            <CollectionView 
-                  
-                  ItemsSource="{Binding TaskViewModels}">
+            <CollectionView ItemsSource="{Binding TaskViewModels}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    
-                        <StackLayout Orientation="Vertical"
-                                     BackgroundColor="{Binding Status, 
-                                     Converter={StaticResource CheckingStatusToBackgroundConverter}}">
-                            <Label Text="{Binding HeaderText}"
-                                   TextType="Html"
-                                   Margin="5"/>
-                            <FlexLayout Direction="Row" Wrap="Wrap"
-                                        Margin="5">
-                                <Label Text="{Binding BeforeBlankText}" 
-                                       LineBreakMode="WordWrap"
-                                       VerticalOptions="Center"
-                                />
-                                <Entry Text = "{Binding InputBlankText}" 
-                                       WidthRequest="70"
-                                       VerticalOptions="Center"
-                                />
-                                <Label Text="{Binding AfterBlankText}" 
-                                       LineBreakMode="WordWrap"
-                                       VerticalOptions="Center"
-                                />
-                            </FlexLayout>
-                        </StackLayout>
-                    
-                    
+                    <views:ExampleTaskView 
+                        BeforeBlankText="{Binding BeforeBlankText}"
+                        InputBlankText="{Binding InputBlankText}"
+                        AfterBlankText="{Binding AfterBlankText}"
+                        />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
