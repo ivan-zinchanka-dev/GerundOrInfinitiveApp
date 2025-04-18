@@ -85,7 +85,7 @@ public partial class ExampleTaskView : ContentView
     
     private Label[] CreateWordLabels(string sourceText)
     {
-        const string splitPattern = @"\s*\S+";
+        const string splitPattern = @"\S+\s*";
         
         return Regex.Matches(sourceText, splitPattern)
             .Select(match => CreateWordLabel(match.Value))
