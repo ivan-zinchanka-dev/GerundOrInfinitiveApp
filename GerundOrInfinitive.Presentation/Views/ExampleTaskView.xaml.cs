@@ -1,4 +1,4 @@
-﻿using Microsoft.Maui.Controls.Compatibility.Platform.Android;
+﻿using System.Text.RegularExpressions;
 
 namespace GerundOrInfinitive.Presentation.Views;
 
@@ -14,6 +14,9 @@ public partial class ExampleTaskView : ContentView
     public static readonly BindableProperty AfterBlankTextProperty = BindableProperty.Create(
         nameof(AfterBlankText), typeof(string), typeof(ExampleTaskView), string.Empty, BindingMode.OneWay,
         propertyChanged: OnTextChanged);
+    
+    private const int SourcePropertiesCount = 2;
+    private int _changedPropertiesCount = 0;
     
     public string BeforeBlankText
     {
@@ -42,7 +45,18 @@ public partial class ExampleTaskView : ContentView
     {
         if (bindable is ExampleTaskView view)
         {
-            view.UpdateLayout();
+            view.OnTextPropertyChanged();
+        }
+    }
+
+    private void OnTextPropertyChanged()
+    {
+        _changedPropertiesCount++;
+
+        if (_changedPropertiesCount == SourcePropertiesCount)
+        {
+            UpdateLayout();
+            _changedPropertiesCount = 0;
         }
     }
 
@@ -67,36 +81,15 @@ public partial class ExampleTaskView : ContentView
         {
             _layout.Children.Add(wordLabel);
         }
-        
     }
-
-    private Label[] CreateWordLabels(string text)
+    
+    private Label[] CreateWordLabels(string sourceText)
     {
-        const char space = ' ';
-        string[] words = text.Split(space, StringSplitOptions.RemoveEmptyEntries);
-        Label[] result = new Label[words.Length];
-
-        for (int i = 0; i < words.Length; i++)
-        {
-            string wordText = null;
-            
-            if (i == 0)
-            {
-                wordText = words[i] + space;
-            }
-            else if (i == words.Length - 1)
-            {
-                wordText = space + words[i];
-            }
-            else
-            {
-                wordText = space + words[i] + space;
-            }
-
-            result[i] = CreateWordLabel(wordText);
-        }
-
-        return result;
+        const string splitPattern = @"\s*\S+";
+        
+        return Regex.Matches(sourceText, splitPattern)
+            .Select(match => CreateWordLabel(match.Value))
+            .ToArray();
     }
 
     private Label CreateWordLabel(string text)
