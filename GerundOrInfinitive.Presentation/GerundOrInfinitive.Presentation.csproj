@@ -20,10 +20,10 @@
         <Nullable>disable</Nullable>
 
         <!-- Display name -->
-        <ApplicationTitle>GerundOrInfinitive.Presentation</ApplicationTitle>
+        <ApplicationTitle>Gerund Or Infinitive</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>com.companyname.gerundorinfinitive.presentation</ApplicationId>
+        <ApplicationId>com.janzi.gerundorinfinitive</ApplicationId>
 
         <!-- Versions -->
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
