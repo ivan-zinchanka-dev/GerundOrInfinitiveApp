@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using Android.OS;
 
 namespace GerundOrInfinitive.Presentation.Views;
 
@@ -133,13 +132,11 @@ public partial class ExampleTaskView : ContentView
 
     private Entry CreateBlankEntry()
     {
-        var entry = new Entry()
+        return new Entry()
         {
             WidthRequest = 80d,
             VerticalOptions = LayoutOptions.Center
         };
-        
-        return entry;
     }
 
 }
