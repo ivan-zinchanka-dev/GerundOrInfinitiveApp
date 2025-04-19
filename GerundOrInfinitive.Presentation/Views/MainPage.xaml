@@ -29,20 +29,13 @@
                        VerticalOptions="Center"
                        Text="{Binding ExamplesCountText}"/>
                 
-                <Border Grid.Column="3" Grid.Row="0"
-                        StrokeThickness="1"
-                        Padding="1, 0, 1, 0"
-                        Background="{StaticResource PrimaryBrush}">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="5" />
-                    </Border.StrokeShape>
-                    <Stepper Minimum="{Binding MinExamplesCount}"
-                             Maximum="{Binding MaxExamplesCount}"
-                             Increment="1"
-                             HeightRequest="40"
-                             VerticalOptions="Center"
-                             Value="{Binding ExamplesCount}"/>
-                </Border>
+                <Stepper Grid.Column="3" Grid.Row="0"
+                         Minimum="{Binding MinExamplesCount}"
+                         Maximum="{Binding MaxExamplesCount}"
+                         Increment="1"
+                         HeightRequest="40"
+                         VerticalOptions="Center"
+                         Value="{Binding ExamplesCount}"/>
                 
                 <Label Grid.Column="1" Grid.Row="1"
                        VerticalOptions="Center"

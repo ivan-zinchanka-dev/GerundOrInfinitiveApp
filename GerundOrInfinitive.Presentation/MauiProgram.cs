@@ -1,5 +1,7 @@
-﻿using GerundOrInfinitive.Domain.Models.Settings;
+﻿using Android.Widget;
+using GerundOrInfinitive.Domain.Models.Settings;
 using GerundOrInfinitive.Domain.Services;
+using GerundOrInfinitive.Presentation.Extensions;
 using GerundOrInfinitive.Presentation.Services;
 using GerundOrInfinitive.Presentation.Services.Contracts;
 using GerundOrInfinitive.Presentation.Services.Implementations;
@@ -7,6 +9,8 @@ using GerundOrInfinitive.Presentation.Settings;
 using GerundOrInfinitive.Presentation.ViewModels;
 using GerundOrInfinitive.Presentation.Views;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Handlers;
+using Button = Android.Widget.Button;
 
 namespace GerundOrInfinitive.Presentation;
 
@@ -29,6 +33,13 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
+        
+        builder.ConfigureMauiHandlers(handlers =>
+        {
+#if ANDROID
+            handlers.AddStepperHandler();
+#endif
+        });
         
         deployTask.GetAwaiter().GetResult();
         
