@@ -17,7 +17,7 @@
         <Border Grid.Row="0" 
                 Stroke="Gray" 
                 StrokeThickness="2"
-                Margin="10, 10, 5, 10 "
+                Margin="10, 10, 10, 5 "
                 Background="{StaticResource WhiteBrush}">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="10" />
@@ -27,7 +27,7 @@
                    Text="{Binding MessageText}"
                    TextType="Html"/>
         </Border>
-        <Border Grid.Row="1" Margin="5, 10, 5,10 "
+        <Border Grid.Row="1" Margin="10, 5, 10,5 "
                 Stroke="Gray" 
                 StrokeThickness="2">
             <Border.StrokeShape>
@@ -53,7 +53,7 @@
                 x:Name="_actionButton"
                 Text="Submit"
                 Command="{Binding SubmitCommand}"
-                Margin= "5, 10, 10, 10 "/>
+                Margin= "10, 5, 10, 10 "/>
     </Grid>
     
 </ContentPage>
