@@ -7,6 +7,7 @@ using Color = Android.Graphics.Color;
 
 namespace GerundOrInfinitive.Presentation.Extensions;
 
+// TODO Customize stepper better using native style override
 public static class AppHandlersExtensions
 {
     private const string CustomColorsKey = "CustomColors";

@@ -2,6 +2,7 @@
 
 namespace GerundOrInfinitive.Presentation.Views;
 
+//TODO Rewrite with Reactive UI
 public partial class ExampleTaskView : ContentView
 {
     public static readonly BindableProperty BeforeBlankTextProperty = BindableProperty.Create(
@@ -125,7 +126,7 @@ public partial class ExampleTaskView : ContentView
         return new Label()
         {
             Text = text,
-            LineBreakMode = LineBreakMode.WordWrap,
+            LineBreakMode = LineBreakMode.NoWrap,
             VerticalOptions = LayoutOptions.Center
         };
     }

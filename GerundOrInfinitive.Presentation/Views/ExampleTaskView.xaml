@@ -6,8 +6,10 @@
              Converter={StaticResource CheckingStatusToBackgroundConverter}}">
     <StackLayout Orientation="Vertical"
                  Margin=" 5, 5, 5, 15">
+        <!--TODO Check if the label can be too long after checking-->
         <Label Text="{Binding HeaderText}"
-               TextType="Html"/>
+               TextType="Html"
+               LineBreakMode="WordWrap"/>
         <FlexLayout x:FieldModifier="private"
                     x:Name="_layout"
                     Direction="Row" 
