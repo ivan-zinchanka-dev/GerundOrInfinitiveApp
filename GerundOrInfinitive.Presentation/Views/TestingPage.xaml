@@ -27,20 +27,21 @@
                    Text="{Binding MessageText}" />
         </Border>
         <Border Grid.Row="1" Margin="10"
-                Background="{StaticResource BackgroundBrush}" 
                 Stroke="Gray" 
                 StrokeThickness="2">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="10" />
             </Border.StrokeShape>
             <CollectionView ItemsSource="{Binding TaskViewModels}"
-                            >
+                            Background="{StaticResource WhiteBrush}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <views:ExampleTaskView 
                         BeforeBlankText="{Binding BeforeBlankText}"
                         InputBlankText="{Binding InputBlankText}"
                         AfterBlankText="{Binding AfterBlankText}"
+                        IsReadonly="{Binding Status, 
+                        Converter={StaticResource CheckingStatusToReadonlyConverter}}"
                         />
                 </DataTemplate>
             </CollectionView.ItemTemplate>

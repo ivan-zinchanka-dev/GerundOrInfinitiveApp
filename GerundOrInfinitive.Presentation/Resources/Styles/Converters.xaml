@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     xmlns:converters="clr-namespace:GerundOrInfinitive.Presentation.Converters">
     
+    <converters:CheckingStatusToReadonlyConverter x:Key="CheckingStatusToReadonlyConverter"/> 
     <converters:CheckingStatusToBackgroundConverter x:Key="CheckingStatusToBackgroundConverter"
                                                     UncheckedColor="{StaticResource Unchecked}"
                                                     CorrectColor="{StaticResource Correct}"

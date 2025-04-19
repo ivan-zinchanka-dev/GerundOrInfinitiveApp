@@ -6,10 +6,13 @@
              NavigationPage.HasNavigationBar="False"
              Background="{StaticResource BackgroundBrush}">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="30,0"
-                             VerticalOptions="Center"
-                             Spacing="50">
+    <VerticalStackLayout Padding="30,0"
+                         VerticalOptions="Center"
+                         Spacing="50">
+            <Image Source="tudor_rose.svg"
+                   WidthRequest="90"
+                   HeightRequest="90"
+                   Aspect="AspectFit"/>
             <Grid RowSpacing="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.1*"/>
@@ -53,6 +56,5 @@
                     Text="Start testing"
                     Command="{Binding StartTestingCommand}"/>
         </VerticalStackLayout>
-    </ScrollView>
 
 </ContentPage>

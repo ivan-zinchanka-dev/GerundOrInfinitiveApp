@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Android.OS;
 
 namespace GerundOrInfinitive.Presentation.Views;
 
@@ -14,6 +15,10 @@ public partial class ExampleTaskView : ContentView
     public static readonly BindableProperty AfterBlankTextProperty = BindableProperty.Create(
         nameof(AfterBlankText), typeof(string), typeof(ExampleTaskView), string.Empty, BindingMode.OneWay,
         propertyChanged: OnTextChanged);
+    
+    public static readonly BindableProperty IsReadonlyProperty = BindableProperty.Create(
+        nameof(IsReadonly), typeof(bool), typeof(ExampleTaskView), false, BindingMode.OneWay,
+        propertyChanged: OnReadonlyStateChanged);
     
     private const int SourcePropertiesCount = 2;
     private int _changedPropertiesCount = 0;
@@ -36,6 +41,12 @@ public partial class ExampleTaskView : ContentView
         set => SetValue(InputBlankTextProperty, value);
     }
     
+    public bool IsReadonly
+    {
+        get => (bool)GetValue(IsReadonlyProperty);
+        set => SetValue(IsReadonlyProperty, value);
+    }
+    
     public ExampleTaskView()
     {
         InitializeComponent();
@@ -46,6 +57,14 @@ public partial class ExampleTaskView : ContentView
         if (bindable is ExampleTaskView view)
         {
             view.OnTextPropertyChanged();
+        }
+    }
+    
+    private static void OnReadonlyStateChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        if (bindable is ExampleTaskView view)
+        {
+            view.OnReadonlyStateChanged();
         }
     }
 
@@ -82,7 +101,17 @@ public partial class ExampleTaskView : ContentView
             _layout.Children.Add(wordLabel);
         }
     }
-    
+
+    private void OnReadonlyStateChanged()
+    {
+        IEnumerable<Entry> entries = _layout.Children.OfType<Entry>();
+
+        foreach (Entry entry in entries)
+        {
+            entry.IsReadOnly = IsReadonly;
+        }
+    }
+
     private Label[] CreateWordLabels(string sourceText)
     {
         const string splitPattern = @"\S+\s*";
@@ -104,11 +133,13 @@ public partial class ExampleTaskView : ContentView
 
     private Entry CreateBlankEntry()
     {
-        return new Entry()
+        var entry = new Entry()
         {
             WidthRequest = 80d,
             VerticalOptions = LayoutOptions.Center
         };
+        
+        return entry;
     }
 
 }
