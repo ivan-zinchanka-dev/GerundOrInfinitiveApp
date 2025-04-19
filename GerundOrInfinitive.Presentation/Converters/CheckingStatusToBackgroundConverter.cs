@@ -1,10 +1,8 @@
 ﻿using System.Globalization;
 using GerundOrInfinitive.Domain.Models.ExampleTask;
-using GerundOrInfinitive.Presentation.ViewModels;
 
 namespace GerundOrInfinitive.Presentation.Converters;
 
-// TODO Colors to resources, list item too
 public class CheckingStatusToBackgroundConverter : IValueConverter
 {
     public Color UncheckedColor { get; set; } = Colors.White;

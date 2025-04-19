@@ -33,7 +33,8 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="10" />
             </Border.StrokeShape>
-            <CollectionView ItemsSource="{Binding TaskViewModels}">
+            <CollectionView ItemsSource="{Binding TaskViewModels}"
+                            >
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <views:ExampleTaskView 

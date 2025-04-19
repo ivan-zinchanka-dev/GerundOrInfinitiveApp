@@ -1,5 +1,6 @@
 ﻿using GerundOrInfinitive.Domain.Models.Settings;
 using GerundOrInfinitive.Domain.Services;
+using GerundOrInfinitive.Presentation.Extensions;
 using GerundOrInfinitive.Presentation.Services;
 using GerundOrInfinitive.Presentation.Services.Contracts;
 using GerundOrInfinitive.Presentation.Services.Implementations;
@@ -12,7 +13,6 @@ namespace GerundOrInfinitive.Presentation;
 
 public static class MauiProgram
 {
-    //TODO Icon, splash, styles (colors), data cleaning issue
     public static MauiApp CreateMauiApp()
     { 
         string databasePath = null;
@@ -22,13 +22,19 @@ public static class MauiProgram
             databasePath = await MauiAssetDeployer.DeployAssetIfNeedAsync("gerund_or_infinitive.db");
         });
         
-        var builder = MauiApp.CreateBuilder();
+        MauiAppBuilder builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            })
+            .ConfigureMauiHandlers(handlers =>
+            {
+#if ANDROID
+                handlers.AdjustEdgeEffects();
+#endif
             });
         
         deployTask.GetAwaiter().GetResult();
