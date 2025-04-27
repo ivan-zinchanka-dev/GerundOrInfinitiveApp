@@ -38,7 +38,7 @@
         <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.png" Color="#FFFFFF"/>
         <!-- Splash Screen -->
-        <MauiSplashScreen Include="Resources\Splash\uk_heart.jpg" Color="#FFFFFF" BaseSize = "275, 300"/>
+        <MauiSplashScreen Include="Resources\Splash\maui_logo.png" BaseSize="250,250" Color="#FFFCF9"/>
 
         <!-- Images -->
         <MauiImage Include="Resources\Images\*"/>
