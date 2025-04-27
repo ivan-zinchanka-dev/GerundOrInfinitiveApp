@@ -11,7 +11,6 @@ using Microsoft.Extensions.Logging;
 
 namespace GerundOrInfinitive.Presentation;
 
-// TODO Another Splash screen
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
