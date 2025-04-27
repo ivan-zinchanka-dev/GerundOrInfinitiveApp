@@ -3,7 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GerundOrInfinitive.Presentation.Views.Controls.Stepper">
     <HorizontalStackLayout Spacing="5">
-        <Button FontSize="18" FontAttributes="Bold" Text="+"/>
-        <Button FontSize="18" FontAttributes="Bold" Text="−"/>
+        <Button x:Name="_minusButton" 
+                x:FieldModifier="private" 
+                FontSize="18" 
+                FontAttributes="Bold" 
+                Text="−"
+                Clicked="OnMinusButtonClick"/>
+        <Button x:Name="_plusButton" 
+                x:FieldModifier="private" 
+                FontSize="18" 
+                FontAttributes="Bold" 
+                Text="+"
+                Clicked="OnPlusButtonClick"/>
     </HorizontalStackLayout>
 </ContentView>
