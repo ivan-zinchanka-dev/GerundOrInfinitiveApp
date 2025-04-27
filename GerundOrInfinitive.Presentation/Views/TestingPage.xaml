@@ -32,21 +32,20 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="10" />
             </Border.StrokeShape>
-            <!--TODO Set last element bkg color after checking-->
             <CollectionView ItemsSource="{Binding TaskViewModels}"
-                            Background="{StaticResource WhiteBrush}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <views:ExampleTaskView 
-                        BeforeBlankText="{Binding BeforeBlankText}"
-                        InputBlankText="{Binding InputBlankText}"
-                        AfterBlankText="{Binding AfterBlankText}"
-                        IsReadonly="{Binding Status, 
-                        Converter={StaticResource CheckingStatusToReadonlyConverter}}"
-                        />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                            Background="{Binding LastTaskStatus, 
+                            Converter={StaticResource CheckingStatusToBackgroundConverter}}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <views:ExampleTaskView 
+                            BeforeBlankText="{Binding BeforeBlankText}"
+                            InputBlankText="{Binding InputBlankText}"
+                            AfterBlankText="{Binding AfterBlankText}"
+                            IsReadonly="{Binding Status, 
+                            Converter={StaticResource CheckingStatusToReadonlyConverter}}"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Border>
         <Button Grid.Row ="2"
                 x:FieldModifier="private"
@@ -55,5 +54,4 @@
                 Command="{Binding SubmitCommand}"
                 Margin= "10, 5, 10, 10 "/>
     </Grid>
-    
 </ContentPage>

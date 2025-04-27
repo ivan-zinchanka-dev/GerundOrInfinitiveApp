@@ -18,6 +18,7 @@ internal class TestingViewModel : ReactiveObject
     
     private string _messageText;
     private ObservableCollection<ExampleTaskViewModel> _taskViewModels = new();
+    private CheckingStatus _lastTaskStatus;
     
     public event Func<Task<bool>> OnPreSubmit;
     public event Action<bool> OnPostSubmit;
@@ -32,6 +33,12 @@ internal class TestingViewModel : ReactiveObject
     {
         get => _taskViewModels;
         set => this.RaiseAndSetIfChanged(ref _taskViewModels, value);
+    }
+
+    public CheckingStatus LastTaskStatus
+    {
+        get => _lastTaskStatus;
+        set => this.RaiseAndSetIfChanged(ref _lastTaskStatus, value);
     }
 
     public ReactiveCommand<Unit, Unit> SubmitCommand { get; }
@@ -55,6 +62,7 @@ internal class TestingViewModel : ReactiveObject
         }, TaskScheduler.FromCurrentSynchronizationContext());
 
         MessageText = _appResources.TutorialString;
+        LastTaskStatus = CheckingStatus.Unchecked;
         
         SubmitCommand = ReactiveCommand.CreateFromTask(Submit, _canUseCommands);
         GotItCommand = ReactiveCommand.CreateFromTask(GotIt, _canUseCommands);
@@ -114,6 +122,7 @@ internal class TestingViewModel : ReactiveObject
         }
         
         MessageText = GetCheckingResultText();
+        LastTaskStatus = _taskViewModels.Last().Status;
     }
 
     private string GetCheckingResultText()
