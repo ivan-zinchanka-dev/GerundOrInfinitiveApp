@@ -38,9 +38,7 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <views:ExampleTaskView 
-                            BeforeBlankText="{Binding BeforeBlankText}"
-                            InputBlankText="{Binding InputBlankText}"
-                            AfterBlankText="{Binding AfterBlankText}"
+                            ViewModel="{Binding}"
                             IsReadonly="{Binding Status, 
                             Converter={StaticResource CheckingStatusToReadonlyConverter}}"/>
                     </DataTemplate>

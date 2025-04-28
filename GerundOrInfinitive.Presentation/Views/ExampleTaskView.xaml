@@ -1,9 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GerundOrInfinitive.Presentation.Views.ExampleTaskView"
-             BackgroundColor="{Binding Status, 
-             Converter={StaticResource CheckingStatusToBackgroundConverter}}">
+<maui:ReactiveContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                          xmlns:maui="clr-namespace:ReactiveUI.Maui;assembly=ReactiveUI.Maui"
+                          xmlns:viewModels="clr-namespace:GerundOrInfinitive.Presentation.ViewModels"
+                          x:TypeArguments="viewModels:ExampleTaskViewModel" 
+                          x:Class="GerundOrInfinitive.Presentation.Views.ExampleTaskView"
+                          BackgroundColor="{Binding Status, 
+                          Converter={StaticResource CheckingStatusToBackgroundConverter}}">
     <StackLayout Orientation="Vertical"
                  Margin=" 5, 5, 5, 15">
         <Label Text="{Binding HeaderText}"
@@ -16,4 +19,4 @@
                     Margin="0, 5, 0, 0">
         </FlexLayout>
     </StackLayout>
-</ContentView>
+</maui:ReactiveContentView>

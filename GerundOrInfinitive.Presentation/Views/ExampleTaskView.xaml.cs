@@ -1,45 +1,17 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using System.Text.RegularExpressions;
+using GerundOrInfinitive.Presentation.ViewModels;
+using ReactiveUI;
+using ReactiveUI.Maui;
 
 namespace GerundOrInfinitive.Presentation.Views;
 
-//TODO Rewrite with Reactive UI
-public partial class ExampleTaskView : ContentView
+public partial class ExampleTaskView : ReactiveContentView<ExampleTaskViewModel>
 {
-    public static readonly BindableProperty BeforeBlankTextProperty = BindableProperty.Create(
-        nameof(BeforeBlankText), typeof(string), typeof(ExampleTaskView), string.Empty, BindingMode.OneWay,
-        propertyChanged: OnTextChanged);
-
-    public static readonly BindableProperty InputBlankTextProperty = BindableProperty.Create(
-        nameof(InputBlankText), typeof(string), typeof(ExampleTaskView), string.Empty, BindingMode.TwoWay);
-    
-    public static readonly BindableProperty AfterBlankTextProperty = BindableProperty.Create(
-        nameof(AfterBlankText), typeof(string), typeof(ExampleTaskView), string.Empty, BindingMode.OneWay,
-        propertyChanged: OnTextChanged);
-    
     public static readonly BindableProperty IsReadonlyProperty = BindableProperty.Create(
         nameof(IsReadonly), typeof(bool), typeof(ExampleTaskView), false, BindingMode.OneWay,
         propertyChanged: OnReadonlyStateChanged);
-    
-    private const int SourcePropertiesCount = 2;
-    private int _changedPropertiesCount = 0;
-    
-    public string BeforeBlankText
-    {
-        get => (string)GetValue(BeforeBlankTextProperty);
-        set => SetValue(BeforeBlankTextProperty, value);
-    }
-
-    public string AfterBlankText
-    {
-        get => (string)GetValue(AfterBlankTextProperty);
-        set => SetValue(AfterBlankTextProperty, value);
-    }
-
-    public string InputBlankText
-    {
-        get => (string)GetValue(InputBlankTextProperty);
-        set => SetValue(InputBlankTextProperty, value);
-    }
     
     public bool IsReadonly
     {
@@ -50,40 +22,27 @@ public partial class ExampleTaskView : ContentView
     public ExampleTaskView()
     {
         InitializeComponent();
-    }
 
-    private static void OnTextChanged(BindableObject bindable, object oldValue, object newValue)
-    {
-        if (bindable is ExampleTaskView view)
+        this.WhenActivated(disposables =>
         {
-            view.OnTextPropertyChanged();
-        }
-    }
-    
-    private static void OnReadonlyStateChanged(BindableObject bindable, object oldValue, object newValue)
-    {
-        if (bindable is ExampleTaskView view)
-        {
-            view.OnReadonlyStateChanged();
-        }
-    }
-
-    private void OnTextPropertyChanged()
-    {
-        _changedPropertiesCount++;
-
-        if (_changedPropertiesCount == SourcePropertiesCount)
-        {
-            UpdateLayout();
-            _changedPropertiesCount = 0;
-        }
+            this.WhenAnyValue(
+                    view => view.ViewModel.BeforeBlankText,
+                    view => view.ViewModel.AfterBlankText)
+                .Where(texts => !string.IsNullOrEmpty(texts.Item1) && !string.IsNullOrEmpty(texts.Item2))
+                .Subscribe(_ => UpdateLayout())
+                .DisposeWith(disposables);
+            
+            this.WhenAnyValue(view => view.IsReadonly)
+                .Subscribe(_ => UpdateReadonlyState())
+                .DisposeWith(disposables);
+        });
     }
 
     private void UpdateLayout()
     {
         _layout.Children.Clear();
 
-        Label[] beforeBlankWordLabels = CreateWordLabels(BeforeBlankText);
+        Label[] beforeBlankWordLabels = CreateWordLabels(ViewModel.BeforeBlankText);
         foreach (Label wordLabel in beforeBlankWordLabels)
         {
             _layout.Children.Add(wordLabel);
@@ -91,18 +50,25 @@ public partial class ExampleTaskView : ContentView
         
         Entry blankEntry = CreateBlankEntry();
         blankEntry.SetBinding(Entry.TextProperty, 
-            new Binding(nameof(InputBlankText), BindingMode.TwoWay, source: this));
-
+            new Binding(nameof(ExampleTaskViewModel.InputBlankText), BindingMode.TwoWay, source: ViewModel));
         _layout.Children.Add(blankEntry);
 
-        Label[] afterBlankWordLabels = CreateWordLabels(AfterBlankText);
+        Label[] afterBlankWordLabels = CreateWordLabels(ViewModel.AfterBlankText);
         foreach (Label wordLabel in afterBlankWordLabels)
         {
             _layout.Children.Add(wordLabel);
         }
     }
+    
+    private static void OnReadonlyStateChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        if (bindable is ExampleTaskView view)
+        {
+            view.UpdateReadonlyState();
+        }
+    }
 
-    private void OnReadonlyStateChanged()
+    private void UpdateReadonlyState()
     {
         IEnumerable<Entry> entries = _layout.Children.OfType<Entry>();
 
@@ -139,5 +105,4 @@ public partial class ExampleTaskView : ContentView
             VerticalOptions = LayoutOptions.Center
         };
     }
-
 }
