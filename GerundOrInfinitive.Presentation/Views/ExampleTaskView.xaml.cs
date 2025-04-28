@@ -1,6 +1,7 @@
 ﻿using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text.RegularExpressions;
+using GerundOrInfinitive.Domain.Models.ExampleTask;
 using GerundOrInfinitive.Presentation.ViewModels;
 using ReactiveUI;
 using ReactiveUI.Maui;
@@ -9,16 +10,6 @@ namespace GerundOrInfinitive.Presentation.Views;
 
 public partial class ExampleTaskView : ReactiveContentView<ExampleTaskViewModel>
 {
-    public static readonly BindableProperty IsReadonlyProperty = BindableProperty.Create(
-        nameof(IsReadonly), typeof(bool), typeof(ExampleTaskView), false, BindingMode.OneWay,
-        propertyChanged: OnReadonlyStateChanged);
-    
-    public bool IsReadonly
-    {
-        get => (bool)GetValue(IsReadonlyProperty);
-        set => SetValue(IsReadonlyProperty, value);
-    }
-    
     public ExampleTaskView()
     {
         InitializeComponent();
@@ -32,7 +23,7 @@ public partial class ExampleTaskView : ReactiveContentView<ExampleTaskViewModel>
                 .Subscribe(_ => UpdateLayout())
                 .DisposeWith(disposables);
             
-            this.WhenAnyValue(view => view.IsReadonly)
+            this.WhenAnyValue(view => view.ViewModel.Status)
                 .Subscribe(_ => UpdateReadonlyState())
                 .DisposeWith(disposables);
         });
@@ -60,24 +51,6 @@ public partial class ExampleTaskView : ReactiveContentView<ExampleTaskViewModel>
         }
     }
     
-    private static void OnReadonlyStateChanged(BindableObject bindable, object oldValue, object newValue)
-    {
-        if (bindable is ExampleTaskView view)
-        {
-            view.UpdateReadonlyState();
-        }
-    }
-
-    private void UpdateReadonlyState()
-    {
-        IEnumerable<Entry> entries = _layout.Children.OfType<Entry>();
-
-        foreach (Entry entry in entries)
-        {
-            entry.IsReadOnly = IsReadonly;
-        }
-    }
-
     private Label[] CreateWordLabels(string sourceText)
     {
         const string splitPattern = @"\S+\s*";
@@ -104,5 +77,30 @@ public partial class ExampleTaskView : ReactiveContentView<ExampleTaskViewModel>
             WidthRequest = 80d,
             VerticalOptions = LayoutOptions.Center
         };
+    }
+    
+    private void UpdateReadonlyState()
+    {
+        bool isReadonly = CheckingStatusToReadonly();
+        IEnumerable<Entry> entries = _layout.Children.OfType<Entry>();
+
+        foreach (Entry entry in entries)
+        {
+            entry.IsReadOnly = isReadonly;
+        }
+    }
+
+    private bool CheckingStatusToReadonly()
+    {
+        switch (ViewModel.Status)
+        {
+            case CheckingStatus.Unchecked:
+            default:
+                return false;
+
+            case CheckingStatus.Correct:
+            case CheckingStatus.Incorrect:
+                return true;
+        }
     }
 }

@@ -37,10 +37,7 @@
                             Converter={StaticResource CheckingStatusToBackgroundConverter}}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <views:ExampleTaskView 
-                            ViewModel="{Binding}"
-                            IsReadonly="{Binding Status, 
-                            Converter={StaticResource CheckingStatusToReadonlyConverter}}"/>
+                        <views:ExampleTaskView ViewModel="{Binding}"/>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
