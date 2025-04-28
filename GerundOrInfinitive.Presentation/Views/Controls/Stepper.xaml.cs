@@ -74,9 +74,14 @@ public partial class Stepper : ContentView
     {
         InitializeComponent();
         
-        ValueChanged += UpdateButtonStates;
+        Loaded += OnLoaded;
         Unloaded += OnUnloaded;
     }
+
+	private void OnLoaded(object sender, EventArgs eventArgs)
+	{
+		ValueChanged += UpdateButtonStates;
+	}
 
 	private void UpdateButtonStates(double value)
 	{
@@ -109,6 +114,5 @@ public partial class Stepper : ContentView
 	private void OnUnloaded(object sender, EventArgs eventArgs)
 	{
 		ValueChanged -= UpdateButtonStates;
-		Unloaded -= OnUnloaded;
 	}
 }

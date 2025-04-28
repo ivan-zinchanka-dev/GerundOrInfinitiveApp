@@ -74,7 +74,7 @@ public partial class ExampleTaskView : ReactiveContentView<ExampleTaskViewModel>
     {
         return new Entry()
         {
-            WidthRequest = 80d,
+            WidthRequest = 90d,
             VerticalOptions = LayoutOptions.Center
         };
     }
