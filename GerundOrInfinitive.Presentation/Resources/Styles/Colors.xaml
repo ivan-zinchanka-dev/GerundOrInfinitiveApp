@@ -18,7 +18,10 @@
     <Color x:Key="Unchecked">White</Color>
     <Color x:Key="Correct">LightGreen</Color>
     <Color x:Key="Incorrect">LightSalmon</Color>
-
+    <Color x:Key="UncheckedDark">#404040</Color>
+    <Color x:Key="CorrectDark">#6EE96E</Color>
+    <Color x:Key="IncorrectDark">#FF8453</Color>
+    
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
     <Color x:Key="Magenta">#D600AA</Color>
