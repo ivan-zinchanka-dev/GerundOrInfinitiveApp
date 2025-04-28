@@ -4,6 +4,10 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    <Style TargetType="ContentPage">
+        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource BackgroundBrush}, Dark={StaticResource BackgroundBrushDark}}"/>
+    </Style>
+    
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
     </Style>
@@ -17,6 +21,7 @@
         <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
         <Setter Property="StrokeShape" Value="Rectangle"/>
         <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource LightBrush}, Dark={StaticResource DarkBrush}}"/>
     </Style>
 
     <Style TargetType="BoxView">
