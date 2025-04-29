@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <x:String x:Key="Tutorial">Complete following sentences with source verbs in correct form</x:String>
+    <x:String x:Key="Tutorial">Fill in the blanks using the appropriate form of the source verbs</x:String>
     <x:String x:Key="CheckingResult">
         <![CDATA[<span style="font-size:17px;"><b>Your result: {0}/{1}</b></span>]]>
     </x:String>
