@@ -6,5 +6,7 @@
                                                     UncheckedColor="{StaticResource Unchecked}"
                                                     CorrectColor="{StaticResource Correct}"
                                                     IncorrectColor="{StaticResource Incorrect}"
-                                                    />
+                                                    UncheckedColorDark="{StaticResource UncheckedDark}"
+                                                    CorrectColorDark="{StaticResource CorrectDark}"
+                                                    IncorrectColorDark="{StaticResource IncorrectDark}"/>
 </ResourceDictionary>

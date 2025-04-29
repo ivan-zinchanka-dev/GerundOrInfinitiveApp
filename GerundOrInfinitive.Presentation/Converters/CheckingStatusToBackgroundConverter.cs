@@ -9,6 +9,10 @@ public class CheckingStatusToBackgroundConverter : IValueConverter
     public Color CorrectColor { get; set; } = Colors.LightGreen;
     public Color IncorrectColor { get; set; } = Colors.LightCoral;
     
+    public Color UncheckedColorDark { get; set; } = Colors.DimGrey;
+    public Color CorrectColorDark { get; set; } = Colors.Lime;
+    public Color IncorrectColorDark { get; set; } = Colors.Coral;
+    
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is CheckingStatus checkingStatus)
@@ -17,19 +21,24 @@ public class CheckingStatusToBackgroundConverter : IValueConverter
             {
                 case CheckingStatus.Unchecked:
                 default:
-                    return UncheckedColor;  
+                    return GetColorByTheme(UncheckedColor, UncheckedColorDark);  
                 
                 case CheckingStatus.Correct:
-                    return CorrectColor;   
+                    return GetColorByTheme(CorrectColor, CorrectColorDark);    
                 
                 case CheckingStatus.Incorrect:
-                    return IncorrectColor;
+                    return GetColorByTheme(IncorrectColor, IncorrectColorDark);  
             }
         }
         else
         {
             throw new InvalidOperationException($"Failed to convert type {targetType}.");
         }
+    }
+
+    private Color GetColorByTheme(Color light, Color dark)
+    {
+        return Application.Current?.RequestedTheme == AppTheme.Dark ? dark : light;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
