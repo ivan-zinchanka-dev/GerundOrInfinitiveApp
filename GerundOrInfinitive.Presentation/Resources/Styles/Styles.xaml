@@ -343,10 +343,6 @@
             </VisualStateGroupList>
         </Setter>
     </Style>
-
-    <!--<Style TargetType="Stepper">
-        <Setter Property=""></Setter>
-    </Style>-->
     
     <Style TargetType="SwipeItem">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />

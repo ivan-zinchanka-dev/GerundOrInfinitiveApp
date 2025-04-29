@@ -4,7 +4,8 @@
              xmlns:views="clr-namespace:GerundOrInfinitive.Presentation.Views"
              x:ClassModifier="internal"
              x:Class="GerundOrInfinitive.Presentation.Views.TestingPage"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             Background="{AppThemeBinding Light={StaticResource BackgroundBrush}, Dark={StaticResource BackgroundBrushDark}}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.11*"/>

@@ -4,7 +4,8 @@
              xmlns:controls="clr-namespace:GerundOrInfinitive.Presentation.Views.Controls"
              x:ClassModifier="internal"
              x:Class="GerundOrInfinitive.Presentation.Views.MainPage"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             Background="{AppThemeBinding Light={StaticResource BackgroundBrush}, Dark={StaticResource BackgroundBrushDark}}">
 
     <VerticalStackLayout Padding="30,0"
                          VerticalOptions="Center"

@@ -14,11 +14,11 @@
     <Color x:Key="Tertiary">DarkBlue</Color>
     
     <Color x:Key="Background">#f0f0f0</Color>
-    <Color x:Key="BackgroundDark">#212121</Color>
+    <Color x:Key="BackgroundDark">#2B2B2B</Color>
     <Color x:Key="Unchecked">White</Color>
     <Color x:Key="Correct">LightGreen</Color>
     <Color x:Key="Incorrect">LightSalmon</Color>
-    <Color x:Key="UncheckedDark">#404040</Color>
+    <Color x:Key="UncheckedDark">#212121</Color>
     <Color x:Key="CorrectDark">#6EE96E</Color>
     <Color x:Key="IncorrectDark">#FF8453</Color>
     
@@ -43,8 +43,8 @@
     <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource Black}"/>
     <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}"/>
     
-    <SolidColorBrush x:Key="LightBrush" Color="{StaticResource White}"/>
-    <SolidColorBrush x:Key="DarkBrush" Color="{StaticResource Gray600}"/>
+    <SolidColorBrush x:Key="LightBrush" Color="{StaticResource Unchecked}"/>
+    <SolidColorBrush x:Key="DarkBrush" Color="{StaticResource UncheckedDark}"/>
     <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource Background}"/>
     <SolidColorBrush x:Key="BackgroundBrushDark" Color="{StaticResource BackgroundDark}"/>
     
