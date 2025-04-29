@@ -5,7 +5,7 @@
              x:ClassModifier="internal"
              x:Class="GerundOrInfinitive.Presentation.Views.MainPage"
              NavigationPage.HasNavigationBar="False"
-             Background="{AppThemeBinding Light={StaticResource BackgroundBrush}, Dark={StaticResource BackgroundBrushDark}}">
+             Style="{StaticResource AppPage}">
 
     <VerticalStackLayout Padding="30,0"
                          VerticalOptions="Center"
